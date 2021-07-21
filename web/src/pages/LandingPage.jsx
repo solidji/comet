@@ -1,21 +1,16 @@
-import {
-  IconDiscord,
-  IconDownload,
-  IconGithub,
-  IconTwitter
-} from '@/components/ui/icons/Icons'
-import Tippy from '@tippyjs/react'
 import { Link } from 'react-router-dom'
+
+import { IconDownload } from '@/components/ui/icons/Icons'
+import { Meteors } from '@/components/ui/meteors'
+import Page from '@/components/ui/page/Page'
 import {
   VectorGrass,
   VectorLogo,
   VectorTelescopeMan
 } from '@/components/ui/vectors'
-import { Meteors } from '@/components/ui/meteors'
-import { getOS } from '@/utils/getOS'
-import Page from '@/components/ui/page/Page'
-import { useCurrentUser } from '@/hooks/graphql/useCurrentUser'
 import { getDownloadLink } from '@/hooks/getDownloadLink'
+import { useCurrentUser } from '@/hooks/graphql/useCurrentUser'
+import { getOS } from '@/utils/getOS'
 
 const container = 'relative z-10 max-w-screen-lg xl:max-w-screen-xl mx-auto'
 const iconButton =
@@ -29,14 +24,14 @@ export default function LandingPage() {
 
   return (
     <Page>
-      <div className="relative flex-grow flex flex-col items-center">
+      <div className="relative flex flex-col items-center flex-grow">
         <div className={`fixed top-0 left-0 right-0 z-50 transition`}>
-          <div className="h-1 bg-gradient-to-r from-blue-500 to-red-500 w-full" />
+          <div className="w-full h-1 bg-gradient-to-r from-blue-500 to-red-500" />
 
-          <div className="px-24 h-16 flex items-center">
+          <div className="flex items-center h-16 px-24">
             <VectorLogo className="h-6 text-secondary" />
 
-            <div className="ml-auto space-x-3 inline-flex items-center">
+            {/* <div className="inline-flex items-center ml-auto space-x-3">
               <Tippy content="Comet Discord Server">
                 <a
                   href="https://discord.gg/NPCMGSm"
@@ -69,7 +64,7 @@ export default function LandingPage() {
                   <IconGithub size={20} className="text-gray-200" />
                 </a>
               </Tippy>
-            </div>
+            </div> */}
           </div>
         </div>
 
@@ -78,23 +73,23 @@ export default function LandingPage() {
             backgroundImage:
               'radial-gradient(ellipse at top , #17181E 0%,  #25282E 95%)'
           }}
-          className="overflow-hidden py-64 w-full relative"
+          className="relative w-full py-64 overflow-hidden"
         >
-          <div className="flex absolute bottom-0 left-0 right-0 z-10 text-gray-900">
+          <div className="absolute bottom-0 left-0 right-0 z-10 flex text-gray-900">
             <VectorGrass className="w-1/2" />
             <VectorGrass className="w-1/2" />
           </div>
-          <VectorTelescopeMan className="absolute bottom-0 right-32 text-gray-900 z-10 h-96" />
+          <VectorTelescopeMan className="absolute bottom-0 z-10 text-gray-900 right-32 h-96" />
           <Meteors />
 
           <div className={container}>
-            <div className="text-center flex flex-col items-center space-y-12">
+            <div className="flex flex-col items-center space-y-12 text-center">
               <h1 className="inline-flex items-center">
-                <div className="text-5xl text-white font-semibold tracking-tight">
+                <div className="text-5xl font-semibold tracking-tight text-white">
                   All-in-one chat and forums for communities.
                 </div>
               </h1>
-              <p className="text-white text-xl max-w-screen-md">
+              <p className="max-w-screen-md text-xl text-white">
                 The age of fragmented communities is over. Say goodbye to Reddit
                 and Discord, and run your entire community on Comet.
               </p>

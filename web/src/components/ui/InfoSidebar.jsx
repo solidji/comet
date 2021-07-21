@@ -1,9 +1,10 @@
-import Sidebar from '@/components/ui/sidebar/Sidebar'
-import ctl from '@netlify/classnames-template-literals'
+import toast from 'react-hot-toast'
 import { Link } from 'react-router-dom'
 import { useCopyToClipboard } from 'react-use'
+
+import Sidebar from '@/components/ui/sidebar/Sidebar'
+import ctl from '@netlify/classnames-template-literals'
 import Tippy from '@tippyjs/react'
-import toast from 'react-hot-toast'
 
 const linkClass = ctl(`
   cursor-pointer
@@ -32,7 +33,7 @@ export default function InfoSidebar() {
               Content Policy
             </Link>
 
-            <a
+            {/* <a
               href="https://github.com/joincomet/comet"
               target="_blank"
               rel="noopener noreferrer"
@@ -48,7 +49,7 @@ export default function InfoSidebar() {
               className={linkClass}
             >
               Discord
-            </a>
+            </a> */}
           </div>
 
           <div className="pt-1.5">
