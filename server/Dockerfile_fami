@@ -1,11 +1,14 @@
 FROM node:16.3.0 as deps
-ENV NODE_ENV=production NODE_TLS_REJECT_UNAUTHORIZED=0
 WORKDIR /app
 COPY . .
 RUN rm -rf .git \
+  rm -rf node_modules \
+  rm -rf migrations \
+  rm -rf package-lock.json \
   && yarn install
 
 FROM node:16.3.0-buster-slim as runner
+ENV NODE_ENV=production NODE_TLS_REJECT_UNAUTHORIZED=0
 WORKDIR /app
 USER node
 COPY --from=deps /app/ ./

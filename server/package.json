@@ -7,6 +7,7 @@
   },
   "scripts": {
     "start": "cross-env NODE_ENV=production NODE_TLS_REJECT_UNAUTHORIZED=0 ts-node -r tsconfig-paths/register --transpile-only src/index.ts",
+    "devEnv": "cross-env NODE_ENV=development ACCESS_TOKEN_SECRET=qowiueojwojfalksdjoqiwueo DATABASE_URL=postgresql://postgres:1216@localhost:5432/comet ts-node-dev -r tsconfig-paths/register src/index.ts",
     "dev": "cross-env NODE_ENV=development ts-node-dev -r tsconfig-paths/register src/index.ts",
     "migrate": "cross-env NODE_ENV=production NODE_TLS_REJECT_UNAUTHORIZED=0 ts-node -r tsconfig-paths/register --transpile-only src/migrate.ts"
   },
@@ -78,7 +79,8 @@
     "@types/user-agents": "^1.0.2",
     "ts-node": "^10.1.0",
     "ts-node-dev": "^1.1.8",
-    "tsconfig-paths": "^3.10.1"
+    "tsconfig-paths": "^3.10.1",
+    "@types/node": "^16.3.2"
   },
   "mikro-orm": {
     "useTsNode": true,

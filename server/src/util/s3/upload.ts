@@ -53,7 +53,7 @@ export const uploadImageUrl = async (linkUrl: string): Promise<Image> => {
 }
 
 export const uploadImageFile = async (
-  createStream: () => any,
+  createStream: () => Readable,
   ext: string
 ): Promise<Image> => {
   const originalSharp = initSharp()

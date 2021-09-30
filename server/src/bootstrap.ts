@@ -19,7 +19,7 @@ import { seed } from '@/seed/seed'
 
 const validationRules = [...specifiedRules, NoLiveMixedWithDeferStreamRule]
 
-const RESET = true // set TRUE to WIPE AND RESET DATABASE in dev
+const RESET = false // set TRUE to WIPE AND RESET DATABASE in dev
 
 export async function bootstrap() {
   console.log(`Initializing database connection...`)
@@ -125,5 +125,5 @@ export async function bootstrap() {
     orm.close()
   })
 
-  await seed(orm.em.fork())
+  // await seed(orm.em.fork())
 }

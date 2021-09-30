@@ -24,7 +24,8 @@ import {
 import { readURL } from '@/utils/readURL'
 import Tippy from '@tippyjs/react'
 
-const serverRegex = /^[A-Za-z0-9_]+$/i
+// const serverRegex = /^[A-Za-z0-9_]+$/i
+const serverRegex = /^[a-zA-Z0-9_\u4e00-\u9fa5]+$/i
 
 export default function CreateServerDialog({ open, setOpen, server }) {
   const [isDownvotesEnabled, setIsDownvotesEnabled] = useState(
@@ -66,7 +67,8 @@ export default function CreateServerDialog({ open, setOpen, server }) {
     if (!nameChanged && displayName != null) {
       setValue(
         'name',
-        displayName.replace(' ', '_').replace(/[^A-Za-z0-9_]/i, '')
+        // displayName.replace(' ', '_').replace(/[^A-Za-z0-9_]/i, '')
+        displayName.replace(' ', '_').replace(' ', '_').replace(/^[^a-zA-Z0-9_\u4e00-\u9fa5]+$/i, '')
       )
     }
   }, [displayName])
@@ -267,7 +269,6 @@ export default function CreateServerDialog({ open, setOpen, server }) {
             <div className="form-error">Letters, numbers and underscores only</div>
           )}
         </div>
-
 
         <textarea
           {...register('description', { maxLength: 500 })}

@@ -1,0 +1,71 @@
+databases:
+  - cluster_name: db-postgresql-sfo3-51411
+    db_name: defaultdb
+    db_user: doadmin
+    engine: PG
+    name: db
+    production: true
+domains:
+  - domain: fami.plus
+    type: PRIMARY
+    zone: fami.plus
+  - domain: www.fami.plus
+    type: ALIAS
+    zone: fami.plus
+envs:
+  - key: VITE_API_DOMAIN
+    scope: RUN_AND_BUILD_TIME
+    value: ${APP_DOMAIN}/api
+name: fami
+region: sfo
+services:
+  - cors: {}
+    envs:
+      - key: DATABASE_URL
+        scope: RUN_AND_BUILD_TIME
+        value: ${db.DATABASE_URL}
+      - key: CA_CERT
+        scope: RUN_AND_BUILD_TIME
+        value: ${db.CA_CERT}
+      - key: ACCESS_TOKEN_SECRET
+        scope: RUN_AND_BUILD_TIME
+        value: qowiueojwojfalksdjoqiwueo
+      - key: BUCKET
+        scope: RUN_AND_BUILD_TIME
+        value: fami
+      - key: AWS_ACCESS_KEY_ID
+        scope: RUN_AND_BUILD_TIME
+        value: FZEU7UKEEURY5GTJ4D3K
+      - key: AWS_SECRET_ACCESS_KEY
+        scope: RUN_AND_BUILD_TIME
+        value: sGSOZcUNfoBjL5rlicmVIOzgXbECHOkr7UFOhtEPC7c
+      - key: AWS_ENDPOINT
+        scope: RUN_AND_BUILD_TIME
+        value: sfo3.digitaloceanspaces.com
+      - key: MEDIA_DOMAIN
+        scope: RUN_AND_BUILD_TIME
+        value: fami.sfo3.digitaloceanspaces.com
+    http_port: 4000
+    image:
+      registry: goooajw
+      registry_type: DOCKER_HUB
+      repository: fami-server
+      tag: v0.0.99
+    instance_count: 1
+    instance_size_slug: basic-xxs
+    name: server
+    routes:
+      - path: /api
+static_sites:
+  - build_command: yarn run build:web
+    catchall_document: index.html
+    environment_slug: html
+    github:
+      branch: deploy
+      deploy_on_push: true
+      repo: solidji/comet
+    name: dj
+    output_dir: web/dist
+    routes:
+      - path: /
+    source_dir: /
