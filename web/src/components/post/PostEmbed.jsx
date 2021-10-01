@@ -4,6 +4,7 @@ import { useState } from 'react'
 import MessageImageDialog from '@/components/message/MessageImageDialog'
 
 export default function PostEmbed({ metadata, dark = false }) {
+  console.log("🚀 ~ file: PostEmbed.jsx ~ line 7 ~ PostEmbed ~ metadata", metadata)
   const [playing, setPlaying] = useState(false)
   const embeddable = canEmbed(metadata.url)
   const themeColor = metadata.themeColor
@@ -26,7 +27,7 @@ export default function PostEmbed({ metadata, dark = false }) {
         } pt-4 border-l-4`}
         style={isWhite ? {} : { borderColor: metadata.themeColor }}
       >
-        <div className="flex-grow rounded-r-md pl-4 pr-4 pb-4 flex flex-col">
+        <div className="flex flex-col flex-grow pb-4 pl-4 pr-4 rounded-r-md">
           <div className="max-w-[400px] space-y-3">
             {metadata.publisher && (
               <div className="text-xs text-secondary">{metadata.publisher}</div>
@@ -70,22 +71,22 @@ export default function PostEmbed({ metadata, dark = false }) {
                       <>
                         <img
                           alt="Thumbnail"
-                          src={metadata.image.smallUrl}
+                          src={metadata.image?.smallUrl}
                           className="rounded select-none"
-                          height={metadata.image.smallHeight}
-                          width={metadata.image.smallWidth}
+                          height={metadata.image?.smallHeight}
+                          width={metadata.image?.smallWidth}
                         />
 
                         <div className="absolute inset-0 flex items-center justify-center">
-                          <div className="text-tertiary rounded-full bg-black bg-opacity-75 flex space-x-3 p-3">
-                            <IconPlay className="w-6 h-6 cursor-pointer text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-gray-100 transition" />
+                          <div className="flex p-3 space-x-3 bg-black bg-opacity-75 rounded-full text-tertiary">
+                            <IconPlay className="w-6 h-6 text-gray-600 transition cursor-pointer dark:text-gray-400 hover:text-gray-900 dark:hover:text-gray-100" />
                             <IconLinkExternal
                               onClick={e => {
                                 e.stopPropagation()
                                 e.preventDefault()
                                 window.open(metadata.url, '_blank')
                               }}
-                              className="w-6 h-6 cursor-pointer text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-gray-100 transition"
+                              className="w-6 h-6 text-gray-600 transition cursor-pointer dark:text-gray-400 hover:text-gray-900 dark:hover:text-gray-100"
                             />
                           </div>
                         </div>
