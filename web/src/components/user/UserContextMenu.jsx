@@ -90,7 +90,7 @@ export default function UserContextMenu({
         )}
         {!!server && canManageUsers && (
           <>
-            <ContextMenuItem label="Set Role">
+            <ContextMenuItem label={t('user.context.setRole')}>
               {server.roles.map(r => (
                 <ContextMenuItem
                   key={r.id}

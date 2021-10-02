@@ -29,13 +29,13 @@ export default function ManageRolesDialog({ open, setOpen, server }) {
     server.roles.find(r => r.isDefault)?.id
   )
   const selectedRole = server.roles.find(r => r.id === selectedRoleId)
-  const [color, setColor] = useState(selectedRole.color)
-  const [name, setName] = useState(selectedRole.name)
-  const [permissions, setPermissions] = useState(selectedRole.permissions)
+  const [color, setColor] = useState(selectedRole?.color)
+  const [name, setName] = useState(selectedRole?.name)
+  const [permissions, setPermissions] = useState(selectedRole?.permissions)
   useEffect(() => {
-    setPermissions(selectedRole.permissions)
-    setName(selectedRole.name)
-    setColor(selectedRole.color)
+    setPermissions(selectedRole?.permissions)
+    setName(selectedRole?.name)
+    setColor(selectedRole?.color)
   }, [selectedRole])
   const [deleteRole] = useDeleteRoleMutation({
     update(cache, { data: { deleteRole } }) {
@@ -65,11 +65,11 @@ export default function ManageRolesDialog({ open, setOpen, server }) {
     }
     return true
   }
-
+  
   const madeChanges =
-    !arrayEquals(permissions, selectedRole.permissions) ||
-    name !== selectedRole.name ||
-    color !== selectedRole.color
+  selectedRole && permissions && (!arrayEquals(permissions, selectedRole?.permissions) ||
+    name !== selectedRole?.name ||
+    color !== selectedRole?.color)
 
   const close = () => {
     setOpen(false)
@@ -171,7 +171,7 @@ export default function ManageRolesDialog({ open, setOpen, server }) {
                         setSelectedRoleId(server.roles.find(r => r.isDefault))
                       }
                     }}
-                    className="group-hover:visible invisible ml-auto highlightable"
+                    className="invisible ml-auto group-hover:visible highlightable"
                   >
                     <IconDelete className="w-4 h-4" />
                   </div>
@@ -183,8 +183,8 @@ export default function ManageRolesDialog({ open, setOpen, server }) {
 
         <div className="relative py-5 px-7 w-full h-[40rem] overflow-y-auto max-h-screen scrollbar-thin dark:scrollbar-thumb-gray-850 scrollbar-track-transparent scrollbar-thumb-rounded-md rounded-tr-lg">
           <div className="flex items-center justify-between pb-5">
-            <div className="text-primary text-base font-semibold">
-              Edit Role - {selectedRole.name}
+            <div className="text-base font-semibold text-primary">
+              Edit Role - {selectedRole?.name}
               {!!selectedRole?.isDefault && ' (Default)'}
             </div>
 
@@ -228,7 +228,7 @@ export default function ManageRolesDialog({ open, setOpen, server }) {
             {Object.keys(realColors).map(col => (
               <div
                 key={col}
-                className="h-6 rounded relative cursor-pointer"
+                className="relative h-6 rounded cursor-pointer"
                 style={{ backgroundColor: realColors[col][500] }}
                 onClick={() => {
                   if (color === realColors[col][500]) setColor(null)
@@ -236,7 +236,7 @@ export default function ManageRolesDialog({ open, setOpen, server }) {
                 }}
               >
                 {color === realColors[col][500] && (
-                  <div className="inset-0 absolute flex items-center justify-center">
+                  <div className="absolute inset-0 flex items-center justify-center">
                     <IconCheck className="w-4 h-4 text-white" />
                   </div>
                 )}
@@ -249,19 +249,19 @@ export default function ManageRolesDialog({ open, setOpen, server }) {
               <div
                 key={permission}
                 className={`flex w-full py-4 text-base cursor-pointer ${
-                  permissions.includes(ServerPermission.Admin) &&
+                  permissions?.includes(ServerPermission.Admin) &&
                   permission !== ServerPermission.Admin
                     ? 'opacity-50'
                     : ''
                 }`}
                 onClick={() => {
                   if (
-                    permissions.includes(ServerPermission.Admin) &&
+                    permissions?.includes(ServerPermission.Admin) &&
                     permission !== ServerPermission.Admin
                   )
                     return
-                  if (permissions.includes(permission)) {
-                    setPermissions(permissions.filter(p => p !== permission))
+                  if (permissions?.includes(permission)) {
+                    setPermissions(permissions?.filter(p => p !== permission))
                   } else {
                     setPermissions([...permissions, permission])
                   }
@@ -272,7 +272,7 @@ export default function ManageRolesDialog({ open, setOpen, server }) {
                     {t(`permissions.server.${permission}.title`)}
                   </div>
                   {!!t(`permissions.server.${permission}.description`) && (
-                    <div className="text-13 text-tertiary pt-1">
+                    <div className="pt-1 text-13 text-tertiary">
                       {t(`permissions.server.${permission}.description`)}
                     </div>
                   )}
@@ -281,15 +281,15 @@ export default function ManageRolesDialog({ open, setOpen, server }) {
                 <div className="pl-6 ml-auto">
                   <Switch
                     disabled={
-                      permissions.includes(ServerPermission.Admin) &&
+                      permissions?.includes(ServerPermission.Admin) &&
                       permission !== ServerPermission.Admin
                     }
                     green
-                    checked={permissions.includes(permission)}
+                    checked={permissions?.includes(permission)}
                     onChange={() => {
-                      if (permissions.includes(permission)) {
+                      if (permissions?.includes(permission)) {
                         setPermissions(
-                          permissions.filter(p => p !== permission)
+                          permissions?.filter(p => p !== permission)
                         )
                       } else {
                         setPermissions([...permissions, permission])
@@ -320,15 +320,15 @@ export default function ManageRolesDialog({ open, setOpen, server }) {
                   madeChanges ? '' : ''
                 }`}
               >
-                <div className="text-secondary text-sm">Changes not saved</div>
-                <div className="flex items-center space-x-3 ml-auto">
+                <div className="text-sm text-secondary">Changes not saved</div>
+                <div className="flex items-center ml-auto space-x-3">
                   <button
                     type="button"
                     className="form-button-cancel"
                     onClick={() => {
-                      setName(selectedRole.name)
-                      setColor(selectedRole.color)
-                      setPermissions(selectedRole.permissions)
+                      setName(selectedRole?.name)
+                      setColor(selectedRole?.color)
+                      setPermissions(selectedRole?.permissions)
                     }}
                   >
                     Discard
@@ -352,7 +352,7 @@ export default function ManageRolesDialog({ open, setOpen, server }) {
                   >
                     Save
                     {updateRoleLoading && (
-                      <IconSpinner className="w-5 h-5 text-primary ml-3" />
+                      <IconSpinner className="w-5 h-5 ml-3 text-primary" />
                     )}
                   </button>
                 </div>

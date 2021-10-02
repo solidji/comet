@@ -74,13 +74,13 @@
     "@types/ioredis": "^4.26.6",
     "@types/jsonwebtoken": "^8.5.4",
     "@types/mime": "^2.0.3",
+    "@types/node": "^16.3.2",
     "@types/sanitize-html": "^2.3.2",
     "@types/sharp": "^0.28.4",
     "@types/user-agents": "^1.0.2",
     "ts-node": "^10.1.0",
     "ts-node-dev": "^1.1.8",
-    "tsconfig-paths": "^3.10.1",
-    "@types/node": "^16.3.2"
+    "tsconfig-paths": "^3.10.1"
   },
   "mikro-orm": {
     "useTsNode": true,
