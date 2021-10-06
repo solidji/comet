@@ -91,7 +91,7 @@ export default function ServerSidebar() {
             }
           />
         ) : (
-          <div className="h-12 border-b dark:border-gray-850 shadow flex items-center px-5 text-base font-medium">
+          <div className="flex items-center h-12 px-5 text-base font-medium border-b shadow dark:border-gray-850">
             <VectorLogo className="h-4" />
           </div>
         )}
@@ -102,7 +102,7 @@ export default function ServerSidebar() {
               <ServerAvatar
                 server={server}
                 size={6}
-                className="rounded-md mr-2 dark:bg-gray-750"
+                className="mr-2 rounded-md dark:bg-gray-750"
               />
               <div className="font-semibold text-primary pr-2.5 truncate">
                 {server.displayName}
@@ -136,11 +136,11 @@ export default function ServerSidebar() {
               {server.description || 'No description'}
             </div>
             <div className="flex items-center justify-between">
-              <div className="text-xs font-medium flex items-center text-tertiary">
+              <div className="flex items-center text-xs font-medium text-tertiary">
                 <IconUsers className="w-4 h-4 mr-2.5" />
                 {server.userCount} Member{server.userCount === 1 ? '' : 's'}
               </div>
-              <div className="text-xs font-medium flex items-center text-tertiary">
+              <div className="flex items-center text-xs font-medium text-tertiary">
                 <CategoryIcon className="w-4 h-4 mr-2.5" />
                 {server.category}
               </div>
@@ -174,11 +174,11 @@ export default function ServerSidebar() {
               <SidebarLabel>Admin</SidebarLabel>
               <div className="space-y-0.5">
                 <SidebarItem onClick={() => setEditOpen(true)}>
-                  <IconSettings className="mr-3 w-5 h-5" />
+                  <IconSettings className="w-5 h-5 mr-3" />
                   Edit Planet
                 </SidebarItem>
                 <SidebarItem onClick={() => setRolesOpen(true)}>
-                  <IconShield className="mr-3 w-5 h-5" />
+                  <IconShield className="w-5 h-5 mr-3" />
                   Manage Roles
                 </SidebarItem>
               </div>

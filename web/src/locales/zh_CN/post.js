@@ -47,12 +47,12 @@ export const post = {
       new: 'New'
     },
     time: {
-      hour: '小时',
-      day: '天',
-      week: '周',
-      month: '月',
-      year: '年',
-      all: '所有'
+      hour: 'Hour',
+      day: 'Day',
+      week: 'Week',
+      month: 'Month',
+      year: 'Year',
+      all: 'All'
     },
     liveMode: {
       title: '实时模式',

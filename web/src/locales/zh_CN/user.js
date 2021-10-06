@@ -37,11 +37,11 @@ export const user = {
     acceptRequest: '接受',
     rejectRequest: '忽略',
     tab: {
-      online: '在线',
-      all: '所有',
-      pending: '待定',
-      blocked: '已屏蔽',
-      add: '添加好友'
+      online: 'Online',
+      all: 'All',
+      pending: 'Pending',
+      blocked: 'Blocked',
+      add: 'Add Friend'
     }
   }
 }

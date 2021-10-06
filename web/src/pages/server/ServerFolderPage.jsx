@@ -13,7 +13,7 @@ export default function ServerFolderPage({ server, folder }) {
       rightSidebar={<ServerFoldersSidebar server={server} />}
       header={<FolderHeader folder={folder} />}
     >
-      <Posts folderId={folder.id} header={<FolderInfoCard folder={folder} />} />
+      <Posts folderId={folder?.id} header={<FolderInfoCard folder={folder} />} />
     </Page>
   )
 }

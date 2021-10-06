@@ -11,6 +11,7 @@ import ExplorePage from '@/pages/explore/ExplorePage'
 import InboxPage from '@/pages/inbox/InboxPage'
 import DmPage from '@/pages/dm/DmPage'
 import ServerPostsPage from '@/pages/server/ServerPostsPage'
+import ServerFolderPage from '@/pages/server/ServerFolderPage'
 import PostPage from '@/pages/post/PostPage'
 import HomeSidebar from '@/pages/HomeSidebar'
 import ServerList from '@/components/server/list/ServerList'
@@ -126,7 +127,10 @@ function ServerPages() {
           location.hash ? (
             <ChannelPage channelName={channelName} />
           ) : (
-            <ServerPostsPage />
+            <>
+              <ServerPostsPage />
+              {/* <ServerFolderPage server={server} /> */}
+            </>
           )
         }
       />

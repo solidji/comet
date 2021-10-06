@@ -53,11 +53,11 @@ export default function InfoSidebar() {
           </div>
 
           <div className="pt-1.5">
-            &copy; {new Date().getFullYear()} CometX, LLC
+            &copy; {new Date().getFullYear()} Fami+, LLC
           </div>
         </div>
 
-        <div className="space-y-0.5 text-xs text-tertiary leading-5 pt-1.5 break-all">
+        {/* <div className="space-y-0.5 text-xs text-tertiary leading-5 pt-1.5 break-all">
           <div>Donations appreciated!</div>
           <Tippy content="Click to copy">
             <div
@@ -83,7 +83,7 @@ export default function InfoSidebar() {
               <span className="highlightable">{ethAddress}</span>
             </div>
           </Tippy>
-        </div>
+        </div> */}
       </div>
     </Sidebar>
   )

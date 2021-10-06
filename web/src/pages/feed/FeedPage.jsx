@@ -34,12 +34,13 @@ export default function FeedPage() {
   return (
     <>
       <Helmet>
-        <title>Home – Comet</title>
+        <title>Home – Fami+</title>
       </Helmet>
 
       <Page
         header={<PostsHeader />}
         rightSidebar={<InfoSidebar />}
+        // rightSidebar={<UserFoldersSidebar />}
       >
         <Posts
           showServerName

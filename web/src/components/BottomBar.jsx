@@ -5,7 +5,9 @@ import {
   IconDark,
   IconDownload,
   IconLight,
-  IconSettings
+  IconSettings,
+  IconSearch,
+  IconFolder
 } from '@/components/ui/icons/Icons'
 import Tippy from '@tippyjs/react'
 import { useEffect, useState } from 'react'
@@ -65,13 +67,13 @@ export default function BottomBar() {
         {currentUser ? (
           <>
             <UserAvatar size={4.5} className="mr-2" user={currentUser} />
-            <div className="text-primary text-13 font-medium cursor-pointer">
+            <div className="font-medium cursor-pointer text-primary text-13">
               {currentUser.username}
             </div>
-            <div className="w-2 h-2 rounded-full bg-green-500 ml-2" />
+            <div className="w-2 h-2 ml-2 bg-green-500 rounded-full" />
           </>
         ) : (
-          <div className="flex items-center text-primary text-13 font-medium">
+          <div className="flex items-center font-medium text-primary text-13">
             <div
               className="cursor-pointer hover:underline"
               onClick={() => {
@@ -94,7 +96,7 @@ export default function BottomBar() {
           </div>
         )}
 
-        <div className="ml-auto flex items-center space-x-4 text-primary">
+        <div className="flex items-center ml-auto space-x-4 text-primary">
           {os === 'Windows' && !window.electron && (
             <Tippy content="Download Comet for Desktop">
               <a
@@ -110,7 +112,7 @@ export default function BottomBar() {
 
           <Tippy content={isDark ? 'Light Mode' : 'Dark Mode'}>
             <button
-              className="text-tertiary cursor-pointer"
+              className="cursor-pointer text-tertiary"
               onClick={() => toggleDark()}
             >
               {isDark ? (
@@ -145,7 +147,7 @@ export default function BottomBar() {
                     : 'text-tertiary'
                 }`}
               >
-                Comet v{version}
+                Fami+ v{version}
               </div>
 
               {window.electron && updateAvailable && (
@@ -156,7 +158,7 @@ export default function BottomBar() {
             </div>
           </Tippy>
 
-          {/*<Tippy content="Search" offset={offset}>
+          {/* <Tippy content="Search" offset={offset}>
             <div>
               <IconSearch className="w-4.5 h-4.5 cursor-pointer" />
             </div>
@@ -166,7 +168,7 @@ export default function BottomBar() {
             <div>
               <IconFolder className="w-4.5 h-4.5 cursor-pointer" />
             </div>
-          </Tippy>*/}
+          </Tippy> */}
 
           {!!currentUser && (
             <>
