@@ -21,7 +21,7 @@ export async function seed(em: EntityManager) {
     const cometUser = em.create(User, {
       username: 'Comet',
       isAdmin: true,
-      avatarUrl: 'https://media.joincomet.app/sQAofmn1NgoJiTCVfz9D3.png',
+      // avatarUrl: 'https://media.joincomet.app/sQAofmn1NgoJiTCVfz9D3.png',
       passwordHash: await argon2.hash(
         process.env.COMET_USER_PASSWORD || 'password'
       )
@@ -32,8 +32,8 @@ export async function seed(em: EntityManager) {
       displayName: 'Comet',
       description: 'Official discussion and announcements relating to Comet',
       category: ServerCategory.Meta,
-      avatarUrl: 'https://media.joincomet.app/sQAofmn1NgoJiTCVfz9D3.png',
-      bannerUrl: 'https://media.joincomet.app/LKpM4IRyEmRTi49MGxgoQ.png',
+      // avatarUrl: 'https://media.joincomet.app/sQAofmn1NgoJiTCVfz9D3.png',
+      // bannerUrl: 'https://media.joincomet.app/LKpM4IRyEmRTi49MGxgoQ.png',
       isFeatured: true,
       featuredPosition: ReorderUtils.FIRST_POSITION,
       owner: cometUser

@@ -235,7 +235,7 @@ export default function CreatePostDialog({ open, setOpen, serverId }) {
     <Dialog isOpen={open} close={close}>
       <form
         onSubmit={handleSubmit(onSubmit)}
-        className="max-w-screen-md w-full dark:bg-gray-800 bg-white text-left rounded-xl"
+        className="w-full max-w-screen-md text-left bg-white dark:bg-gray-800 rounded-xl"
       >
         <div className="grid grid-cols-4">
           <ServerSelect
@@ -251,7 +251,7 @@ export default function CreatePostDialog({ open, setOpen, serverId }) {
               setImages([])
             }}
           >
-            <IconText className="mr-2 w-5 h-5" />
+            <IconText className="w-5 h-5 mr-2" />
             Text
           </div>
           <div
@@ -262,7 +262,7 @@ export default function CreatePostDialog({ open, setOpen, serverId }) {
               setImages([])
             }}
           >
-            <IconLinkChain className="mr-2 w-5 h-5" />
+            <IconLinkChain className="w-5 h-5 mr-2" />
             Link
           </div>
           <div
@@ -274,7 +274,7 @@ export default function CreatePostDialog({ open, setOpen, serverId }) {
               setText('')
             }}
           >
-            <IconFormatImage className="mr-2 w-5 h-5" />
+            <IconFormatImage className="w-5 h-5 mr-2" />
             Images
           </div>
         </div>
@@ -306,7 +306,7 @@ export default function CreatePostDialog({ open, setOpen, serverId }) {
               <div className="pb-5 pt-1.5">
                 {linkMeta?.title && title !== linkMeta?.title && (
                   <span
-                    className="text-xs text-blue-500 hover:underline cursor-pointer line-clamp-1"
+                    className="text-xs text-blue-500 cursor-pointer hover:underline line-clamp-1"
                     onClick={() => {
                       setValue('title', linkMeta?.title)
                       trigger('title')
@@ -330,7 +330,7 @@ export default function CreatePostDialog({ open, setOpen, serverId }) {
 
                 <input
                   maxLength={2000}
-                  className="px-10 h-10 dark:bg-gray-750 bg-gray-100 rounded text-sm text-primary w-full focus:outline-none"
+                  className="w-full h-10 px-10 text-sm bg-gray-100 rounded dark:bg-gray-750 text-primary focus:outline-none"
                   {...register('linkUrl', {
                     validate: url => !url || isURL(url)
                   })}
@@ -345,7 +345,7 @@ export default function CreatePostDialog({ open, setOpen, serverId }) {
               </div>
 
               {linkUrl && !isURL(linkUrl) && (
-                <div className="text-13 text-red-400 pt-1">
+                <div className="pt-1 text-red-400 text-13">
                   Must be a valid URL
                 </div>
               )}
@@ -363,7 +363,7 @@ export default function CreatePostDialog({ open, setOpen, serverId }) {
               {images && images.length > 0 ? (
                 <div>
                   <div className="flex">
-                    <div className="flex scrollbar-custom items-center space-x-3 overflow-x-auto border dark:border-gray-700 rounded-md h-31 px-3 max-w-full w-full">
+                    <div className="flex items-center w-full max-w-full px-3 space-x-3 overflow-x-auto border rounded-md scrollbar-custom dark:border-gray-700 h-31">
                       {images.map((image, i) => (
                         <div
                           key={i}
@@ -383,8 +383,8 @@ export default function CreatePostDialog({ open, setOpen, serverId }) {
                               className="absolute top-1 right-1 rounded-full bg-black p-0.5 hidden group-hover:block z-10"
                               onClick={() => {
                                 if (selectedImage >= i && selectedImage > 0) {
-                                  setImmediate(() =>
-                                    setSelectedImage(selectedImage - 1)
+                                  setTimeout(() =>
+                                    setSelectedImage(selectedImage - 1),0
                                   )
                                 }
                                 const newImages = images.slice()
@@ -394,7 +394,7 @@ export default function CreatePostDialog({ open, setOpen, serverId }) {
                             >
                               <IconX className="w-4.5 h-4.5 text-white" />
                             </div>
-                            <div className="absolute inset-0 bg-black rounded bg-opacity-0 group-hover:bg-opacity-50" />
+                            <div className="absolute inset-0 bg-black bg-opacity-0 rounded group-hover:bg-opacity-50" />
                             <div
                               style={{ backgroundImage: `url(${image.data})` }}
                               className={`max-w-25 max-h-25 min-w-[6.25rem] min-h-[6.25rem] bg-cover bg-center select-none rounded`}
@@ -403,7 +403,7 @@ export default function CreatePostDialog({ open, setOpen, serverId }) {
                         </div>
                       ))}
 
-                      <div className="w-25 h-25 rounded relative flex items-center justify-center border dark:border-gray-700 border-dashed cursor-pointer transition dark:hover:bg-gray-775">
+                      <div className="relative flex items-center justify-center transition border border-dashed rounded cursor-pointer w-25 h-25 dark:border-gray-700 dark:hover:bg-gray-775">
                         <input
                           type="file"
                           id="file"
@@ -422,15 +422,15 @@ export default function CreatePostDialog({ open, setOpen, serverId }) {
                   </div>
 
                   {images && images?.length > 0 && (
-                    <div className="mt-5 flex space-x-5">
+                    <div className="flex mt-5 space-x-5">
                       <div
-                        className="w-81 h-81 bg-contain bg-center bg-no-repeat dark:bg-gray-775 flex-shrink-0"
+                        className="flex-shrink-0 bg-center bg-no-repeat bg-contain w-81 h-81 dark:bg-gray-775"
                         style={{
                           backgroundImage: `url(${images[selectedImage]?.data})`
                         }}
                       />
 
-                      <div className="space-y-5 max-w-full flex-grow">
+                      <div className="flex-grow max-w-full space-y-5">
                         <div>
                           <label htmlFor="caption" className={labelClass}>
                             Caption
@@ -474,7 +474,7 @@ export default function CreatePostDialog({ open, setOpen, serverId }) {
                           />
                           {images[selectedImage]?.linkUrl &&
                             !isURL(images[selectedImage]?.linkUrl) && (
-                              <div className="text-13 text-red-400 pt-1">
+                              <div className="pt-1 text-red-400 text-13">
                                 Must be a valid URL
                               </div>
                             )}
@@ -495,7 +495,7 @@ export default function CreatePostDialog({ open, setOpen, serverId }) {
                   />
                   <label
                     htmlFor="files"
-                    className="select-none cursor-pointer flex items-center justify-center text-base text-tertiary h-30 border border-dashed dark:border-gray-700 rounded-md transition dark:hover:bg-gray-775"
+                    className="flex items-center justify-center text-base transition border border-dashed rounded-md cursor-pointer select-none text-tertiary h-30 dark:border-gray-700 dark:hover:bg-gray-775"
                   >
                     Drag 'n' drop some images here, or click to select images
                   </label>
@@ -505,7 +505,7 @@ export default function CreatePostDialog({ open, setOpen, serverId }) {
           )}
 
           <div className="flex items-center pt-5">
-            <div className="ml-auto flex items-center space-x-3">
+            <div className="flex items-center ml-auto space-x-3">
               <button
                 type="button"
                 className={cancelBtnClass}
@@ -520,7 +520,7 @@ export default function CreatePostDialog({ open, setOpen, serverId }) {
               >
                 {t('post.create.submit')}
                 {loading && (
-                  <IconSpinner className="w-5 h-5 text-primary ml-3" />
+                  <IconSpinner className="w-5 h-5 ml-3 text-primary" />
                 )}
               </button>
             </div>
