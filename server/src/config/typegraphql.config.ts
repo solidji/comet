@@ -13,6 +13,7 @@ import {
   RepliesResolver,
   RoleResolver,
   ServerResolver,
+  EventResolver,
   SubscriptionResolver,
   UserResolver
 } from '@/resolver'
@@ -61,6 +62,7 @@ export const typeGraphQLConf = {
     RepliesResolver,
     RoleResolver,
     ServerResolver,
+    EventResolver,
     SubscriptionResolver,
     UserResolver
   ],

@@ -132,6 +132,13 @@ input CreateCommentInput {
   text: String!
 }
 
+input CreateEventInput {
+  bannerFile: Upload
+  description: String
+  serverId: ID!
+  title: String!
+}
+
 input CreateFolderInput {
   isCollaborative: Boolean = false
   name: String!
@@ -230,6 +237,54 @@ input DeleteServerInput {
 A field whose value conforms to the standard internet email address format as specified in RFC822: https://www.w3.org/Protocols/rfc822/.
 """
 scalar EmailAddress @specifiedBy(url: "https://www.w3.org/Protocols/rfc822/")
+
+type Event implements BaseEntity {
+  bannerUrl: String
+  createdAt: DateTime!
+  description: String
+  id: ID!
+  images: [Image!]!
+  isDeleted: Boolean!
+  isPublic: Boolean!
+  owner: User!
+  relativeUrl: String!
+  server: Server!
+  title: String!
+  updatedAt: DateTime
+}
+
+enum EventJobs {
+  Collaborator
+  Moderator
+  None
+}
+
+type EventUser {
+  eventJob: EventJobs!
+  id: ID!
+  user: User!
+}
+
+type EventsResponse {
+  events: [Event!]!
+  hasMore: Boolean!
+}
+
+enum EventsSort {
+  Added
+  Hot
+  New
+  Top
+}
+
+enum EventsTime {
+  All
+  Day
+  Hour
+  Month
+  Week
+  Year
+}
 
 input FeatureServerInput {
   serverId: ID!
@@ -432,6 +487,7 @@ type Mutation {
   createAccount(input: CreateAccountInput!): LoginResponse!
   createChannel(input: CreateChannelInput!): Channel!
   createComment(input: CreateCommentInput!): Comment!
+  createEvent(input: CreateEventInput!): Event!
   createFolder(input: CreateFolderInput!): Folder!
   createFriendRequest(input: CreateFriendRequestInput!): User!
   createGroup(input: CreateGroupInput!): Group!
@@ -594,6 +650,9 @@ enum PublicServersSort {
 
 type Query {
   comments(postId: ID, sort: CommentsSort = Top): [Comment!]!
+  event(id: ID!): Event!
+  eventUsers(eventId: ID!): [EventUser!]!
+  events(limit: PositiveInt = 20, offset: NonNegativeInt = 0, search: String, serverId: ID, sort: EventsSort = New, time: EventsTime = All): EventsResponse!
   folder(id: ID!): Folder!
   getLinkMeta(linkUrl: String!): LinkMetadata
   messages(channelId: ID, cursor: ID, groupId: ID, limit: PositiveInt = 100, pinned: Boolean = false, userId: ID): MessagesResponse!

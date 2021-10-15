@@ -31,7 +31,9 @@ import {
   ServerFolder,
   ServerUser,
   User,
-  UserFolder
+  UserFolder,
+  Event,
+  EventUser
 } from '@/entity'
 import { RedisCacheAdapter } from 'mikro-orm-cache-adapter-redis'
 import Redis from 'ioredis'
@@ -65,7 +67,9 @@ export const mikroOrmConf = {
     BaseEntity,
     File,
     Image,
-    LinkMetadata
+    LinkMetadata,
+    Event,
+    EventUser
   ],
   type: 'postgresql',
   clientUrl:

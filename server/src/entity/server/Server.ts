@@ -3,6 +3,7 @@ import {
   Channel,
   Folder,
   Post,
+  Event,
   ServerCategory,
   ServerFolder,
   ServerPermission,
@@ -44,6 +45,9 @@ export class Server extends BaseEntity {
 
   @OneToMany(() => Post, 'server')
   posts = new Collection<Post>(this)
+  
+  @OneToMany(() => Event, 'server')
+  events = new Collection<Event>(this)
 
   @Field(() => [Role])
   @OneToMany(() => Role, 'server', {
