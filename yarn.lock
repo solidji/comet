@@ -7840,6 +7840,15 @@ __metadata:
   languageName: node
   linkType: hard
 
+"dotenv-safe@npm:^8.2.0":
+  version: 8.2.0
+  resolution: "dotenv-safe@npm:8.2.0"
+  dependencies:
+    dotenv: ^8.2.0
+  checksum: 8525ceed5a8ae4a4b9264080a3ad1550cb4c5d8d5990b4772fd62a6d245c01a01f77a540bab4fb16ae0513d9ea804cbaa6d19acb370b5bc68f2d103813c2eb2e
+  languageName: node
+  linkType: hard
+
 "dotenv@npm:8.2.0, dotenv@npm:^8.2.0":
   version: 8.2.0
   resolution: "dotenv@npm:8.2.0"
@@ -15792,6 +15801,7 @@ resolve@^2.0.0-next.3:
     cross-env: ^7.0.3
     dataloader: ^2.0.0
     dayjs: ^1.10.6
+    dotenv-safe: ^8.2.0
     express: ^4.17.1
     faker: ^5.5.3
     file-type: ^16.5.2
