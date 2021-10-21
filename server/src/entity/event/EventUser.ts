@@ -5,7 +5,7 @@ import {
   PrimaryKeyType,
   Property
 } from '@mikro-orm/core'
-import { EventJobs, Event, User, ServerUserStatus } from '@/entity'
+import { EventJobs, Event, User, EventUserStatus} from '@/entity'
 import { ReorderUtils } from '@/util/ReorderUtils'
 import { Field, ID, ObjectType } from 'type-graphql'
 
@@ -29,12 +29,12 @@ export class EventUser {
 
   @Field(() => EventJobs)
   @Enum({items: () => EventJobs})
-  eventJob: EventJobs = EventJobs.None
+  eventJob: EventJobs = EventJobs.Member
 
-  // @Enum({
-  //   items: () => ServerUserStatus
-  // })
-  // status: ServerUserStatus = ServerUserStatus.Joined
+  @Enum({
+    items: () => EventUserStatus
+  })
+  status: EventUserStatus = EventUserStatus.Joined
 
   @Field(() => ID)
   get id() {

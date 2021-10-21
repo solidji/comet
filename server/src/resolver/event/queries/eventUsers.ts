@@ -1,4 +1,4 @@
-import { EventUser } from '@/entity'
+import { EventUser, EventUserStatus } from '@/entity'
 import { Context } from '@/types'
 import {logger} from "@/util";
 
@@ -11,7 +11,8 @@ export async function eventUsers(
   return em.find(
     EventUser,
     {
-      event: eventId
+      event: eventId,
+      status: EventUserStatus.Joined
     },
     ['user'],
     { user: { username: 'ASC' } }

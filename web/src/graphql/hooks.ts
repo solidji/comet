@@ -155,6 +155,13 @@ export type CreateCommentInput = {
   text: Scalars['String'];
 };
 
+export type CreateEventInput = {
+  bannerFile?: Maybe<Scalars['Upload']>;
+  description?: Maybe<Scalars['String']>;
+  serverId: Scalars['ID'];
+  title: Scalars['String'];
+};
+
 export type CreateFolderInput = {
   isCollaborative?: Maybe<Scalars['Boolean']>;
   name: Scalars['String'];
@@ -245,6 +252,60 @@ export type DeleteServerInput = {
   serverId: Scalars['ID'];
 };
 
+
+export type Event = BaseEntity & {
+  __typename?: 'Event';
+  bannerUrl?: Maybe<Scalars['String']>;
+  createdAt: Scalars['DateTime'];
+  description?: Maybe<Scalars['String']>;
+  id: Scalars['ID'];
+  images: Array<Image>;
+  isDeleted: Scalars['Boolean'];
+  isJoined: Scalars['Boolean'];
+  isPublic: Scalars['Boolean'];
+  owner: User;
+  relativeUrl: Scalars['String'];
+  server: Server;
+  title: Scalars['String'];
+  updatedAt?: Maybe<Scalars['DateTime']>;
+  userCount: Scalars['NonNegativeInt'];
+};
+
+export enum EventJobs {
+  Collaborator = 'Collaborator',
+  Member = 'Member',
+  Moderator = 'Moderator',
+  None = 'None'
+}
+
+export type EventUser = {
+  __typename?: 'EventUser';
+  eventJob: EventJobs;
+  id: Scalars['ID'];
+  user: User;
+};
+
+export type EventsResponse = {
+  __typename?: 'EventsResponse';
+  events: Array<Event>;
+  hasMore: Scalars['Boolean'];
+};
+
+export enum EventsSort {
+  Added = 'Added',
+  Hot = 'Hot',
+  New = 'New',
+  Top = 'Top'
+}
+
+export enum EventsTime {
+  All = 'All',
+  Day = 'Day',
+  Hour = 'Hour',
+  Month = 'Month',
+  Week = 'Week',
+  Year = 'Year'
+}
 
 export type FeatureServerInput = {
   serverId: Scalars['ID'];
@@ -449,6 +510,7 @@ export type Mutation = {
   createAccount: LoginResponse;
   createChannel: Channel;
   createComment: Comment;
+  createEvent: Event;
   createFolder: Folder;
   createFriendRequest: User;
   createGroup: Group;
@@ -569,6 +631,11 @@ export type MutationCreateChannelArgs = {
 
 export type MutationCreateCommentArgs = {
   input: CreateCommentInput;
+};
+
+
+export type MutationCreateEventArgs = {
+  input: CreateEventInput;
 };
 
 
@@ -972,6 +1039,9 @@ export enum PublicServersSort {
 export type Query = {
   __typename?: 'Query';
   comments: Array<Comment>;
+  event: Event;
+  eventUsers: Array<EventUser>;
+  events: EventsResponse;
   folder: Folder;
   getLinkMeta?: Maybe<LinkMetadata>;
   messages: MessagesResponse;
@@ -988,6 +1058,26 @@ export type Query = {
 export type QueryCommentsArgs = {
   postId?: Maybe<Scalars['ID']>;
   sort?: Maybe<CommentsSort>;
+};
+
+
+export type QueryEventArgs = {
+  id: Scalars['ID'];
+};
+
+
+export type QueryEventUsersArgs = {
+  eventId: Scalars['ID'];
+};
+
+
+export type QueryEventsArgs = {
+  limit?: Maybe<Scalars['PositiveInt']>;
+  offset?: Maybe<Scalars['NonNegativeInt']>;
+  search?: Maybe<Scalars['String']>;
+  serverId?: Maybe<Scalars['ID']>;
+  sort?: Maybe<EventsSort>;
+  time?: Maybe<EventsTime>;
 };
 
 
@@ -1390,6 +1480,24 @@ export type CurrentUserFragment = (
     & GroupFragment
   )> }
   & UserFragment
+);
+
+export type EventFragment = (
+  { __typename?: 'Event' }
+  & Pick<Event, 'id' | 'title' | 'description' | 'bannerUrl' | 'userCount' | 'isJoined'>
+  & { owner: (
+    { __typename?: 'User' }
+    & Pick<User, 'id'>
+  ) }
+);
+
+export type EventUserFragment = (
+  { __typename?: 'EventUser' }
+  & Pick<EventUser, 'id' | 'eventJob'>
+  & { user: (
+    { __typename?: 'User' }
+    & UserFragment
+  ) }
 );
 
 export type FolderFragment = (
@@ -2587,6 +2695,68 @@ export type CurrentUserQuery = (
   )> }
 );
 
+export type EventQueryVariables = Exact<{
+  id: Scalars['ID'];
+}>;
+
+
+export type EventQuery = (
+  { __typename?: 'Query' }
+  & { event: (
+    { __typename?: 'Event' }
+    & { owner: (
+      { __typename?: 'User' }
+      & UserFragment
+    ), server: (
+      { __typename?: 'Server' }
+      & ServerFragment
+    ) }
+    & EventFragment
+  ) }
+);
+
+export type EventUsersQueryVariables = Exact<{
+  eventId: Scalars['ID'];
+}>;
+
+
+export type EventUsersQuery = (
+  { __typename?: 'Query' }
+  & { eventUsers: Array<(
+    { __typename?: 'EventUser' }
+    & EventUserFragment
+  )> }
+);
+
+export type EventsQueryVariables = Exact<{
+  sort?: Maybe<EventsSort>;
+  offset?: Maybe<Scalars['NonNegativeInt']>;
+  limit?: Maybe<Scalars['PositiveInt']>;
+  time?: Maybe<EventsTime>;
+  serverId?: Maybe<Scalars['ID']>;
+  search?: Maybe<Scalars['String']>;
+}>;
+
+
+export type EventsQuery = (
+  { __typename?: 'Query' }
+  & { events: (
+    { __typename?: 'EventsResponse' }
+    & Pick<EventsResponse, 'hasMore'>
+    & { events: Array<(
+      { __typename?: 'Event' }
+      & { owner: (
+        { __typename?: 'User' }
+        & UserFragment
+      ), server: (
+        { __typename?: 'Server' }
+        & Pick<Server, 'id' | 'name' | 'avatarUrl' | 'isDownvotesEnabled' | 'displayName' | 'permissions'>
+      ) }
+      & EventFragment
+    )> }
+  ) }
+);
+
 export type FolderQueryVariables = Exact<{
   id: Scalars['ID'];
 }>;
@@ -3043,6 +3213,28 @@ export const CurrentUserFragmentDoc = gql`
 }
     ${UserFragmentDoc}
 ${GroupFragmentDoc}`;
+export const EventFragmentDoc = gql`
+    fragment Event on Event {
+  id
+  title
+  description
+  bannerUrl
+  userCount
+  isJoined
+  owner {
+    id
+  }
+}
+    `;
+export const EventUserFragmentDoc = gql`
+    fragment EventUser on EventUser {
+  id
+  eventJob
+  user {
+    ...User
+  }
+}
+    ${UserFragmentDoc}`;
 export const FolderFragmentDoc = gql`
     fragment Folder on Folder {
   id
@@ -5785,6 +5977,146 @@ export function useCurrentUserLazyQuery(baseOptions?: Apollo.LazyQueryHookOption
 export type CurrentUserQueryHookResult = ReturnType<typeof useCurrentUserQuery>;
 export type CurrentUserLazyQueryHookResult = ReturnType<typeof useCurrentUserLazyQuery>;
 export type CurrentUserQueryResult = Apollo.QueryResult<CurrentUserQuery, CurrentUserQueryVariables>;
+export const EventDocument = gql`
+    query event($id: ID!) @live {
+  event(id: $id) {
+    ...Event
+    owner {
+      ...User
+    }
+    server {
+      ...Server
+    }
+  }
+}
+    ${EventFragmentDoc}
+${UserFragmentDoc}
+${ServerFragmentDoc}`;
+
+/**
+ * __useEventQuery__
+ *
+ * To run a query within a React component, call `useEventQuery` and pass it any options that fit your needs.
+ * When your component renders, `useEventQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useEventQuery({
+ *   variables: {
+ *      id: // value for 'id'
+ *   },
+ * });
+ */
+export function useEventQuery(baseOptions: Apollo.QueryHookOptions<EventQuery, EventQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<EventQuery, EventQueryVariables>(EventDocument, options);
+      }
+export function useEventLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<EventQuery, EventQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<EventQuery, EventQueryVariables>(EventDocument, options);
+        }
+export type EventQueryHookResult = ReturnType<typeof useEventQuery>;
+export type EventLazyQueryHookResult = ReturnType<typeof useEventLazyQuery>;
+export type EventQueryResult = Apollo.QueryResult<EventQuery, EventQueryVariables>;
+export const EventUsersDocument = gql`
+    query eventUsers($eventId: ID!) @live {
+  eventUsers(eventId: $eventId) {
+    ...EventUser
+  }
+}
+    ${EventUserFragmentDoc}`;
+
+/**
+ * __useEventUsersQuery__
+ *
+ * To run a query within a React component, call `useEventUsersQuery` and pass it any options that fit your needs.
+ * When your component renders, `useEventUsersQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useEventUsersQuery({
+ *   variables: {
+ *      eventId: // value for 'eventId'
+ *   },
+ * });
+ */
+export function useEventUsersQuery(baseOptions: Apollo.QueryHookOptions<EventUsersQuery, EventUsersQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<EventUsersQuery, EventUsersQueryVariables>(EventUsersDocument, options);
+      }
+export function useEventUsersLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<EventUsersQuery, EventUsersQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<EventUsersQuery, EventUsersQueryVariables>(EventUsersDocument, options);
+        }
+export type EventUsersQueryHookResult = ReturnType<typeof useEventUsersQuery>;
+export type EventUsersLazyQueryHookResult = ReturnType<typeof useEventUsersLazyQuery>;
+export type EventUsersQueryResult = Apollo.QueryResult<EventUsersQuery, EventUsersQueryVariables>;
+export const EventsDocument = gql`
+    query events($sort: EventsSort, $offset: NonNegativeInt, $limit: PositiveInt, $time: EventsTime, $serverId: ID, $search: String) {
+  events(
+    sort: $sort
+    time: $time
+    serverId: $serverId
+    search: $search
+    offset: $offset
+    limit: $limit
+  ) {
+    hasMore
+    events {
+      ...Event
+      owner {
+        ...User
+      }
+      server {
+        id
+        name
+        avatarUrl
+        isDownvotesEnabled
+        displayName
+        permissions
+      }
+    }
+  }
+}
+    ${EventFragmentDoc}
+${UserFragmentDoc}`;
+
+/**
+ * __useEventsQuery__
+ *
+ * To run a query within a React component, call `useEventsQuery` and pass it any options that fit your needs.
+ * When your component renders, `useEventsQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useEventsQuery({
+ *   variables: {
+ *      sort: // value for 'sort'
+ *      offset: // value for 'offset'
+ *      limit: // value for 'limit'
+ *      time: // value for 'time'
+ *      serverId: // value for 'serverId'
+ *      search: // value for 'search'
+ *   },
+ * });
+ */
+export function useEventsQuery(baseOptions?: Apollo.QueryHookOptions<EventsQuery, EventsQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<EventsQuery, EventsQueryVariables>(EventsDocument, options);
+      }
+export function useEventsLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<EventsQuery, EventsQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<EventsQuery, EventsQueryVariables>(EventsDocument, options);
+        }
+export type EventsQueryHookResult = ReturnType<typeof useEventsQuery>;
+export type EventsLazyQueryHookResult = ReturnType<typeof useEventsLazyQuery>;
+export type EventsQueryResult = Apollo.QueryResult<EventsQuery, EventsQueryVariables>;
 export const FolderDocument = gql`
     query folder($id: ID!) @live {
   folder(id: $id) {

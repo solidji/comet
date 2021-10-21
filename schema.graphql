@@ -245,16 +245,19 @@ type Event implements BaseEntity {
   id: ID!
   images: [Image!]!
   isDeleted: Boolean!
+  isJoined: Boolean!
   isPublic: Boolean!
   owner: User!
   relativeUrl: String!
   server: Server!
   title: String!
   updatedAt: DateTime
+  userCount: NonNegativeInt!
 }
 
 enum EventJobs {
   Collaborator
+  Member
   Moderator
   None
 }

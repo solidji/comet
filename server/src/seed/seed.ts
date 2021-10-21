@@ -16,10 +16,10 @@ import { ReorderUtils } from '@/util'
 import * as argon2 from 'argon2'
 
 export async function seed(em: EntityManager) {
-  let cometServer = await em.findOne(Server, { name: 'Comet' })
+  let cometServer = await em.findOne(Server, { name: 'FamiPlus' })
   if (!cometServer) {
     const cometUser = em.create(User, {
-      username: 'Comet',
+      username: 'admin',
       isAdmin: true,
       // avatarUrl: 'https://media.joincomet.app/sQAofmn1NgoJiTCVfz9D3.png',
       passwordHash: await argon2.hash(
@@ -28,9 +28,9 @@ export async function seed(em: EntityManager) {
     })
 
     cometServer = em.create(Server, {
-      name: 'Comet',
-      displayName: 'Comet',
-      description: 'Official discussion and announcements relating to Comet',
+      name: 'FamiPlus',
+      displayName: '叠家',
+      description: 'Official discussion and announcements relating to FamiPlus',
       category: ServerCategory.Meta,
       // avatarUrl: 'https://media.joincomet.app/sQAofmn1NgoJiTCVfz9D3.png',
       // bannerUrl: 'https://media.joincomet.app/LKpM4IRyEmRTi49MGxgoQ.png',
@@ -38,6 +38,7 @@ export async function seed(em: EntityManager) {
       featuredPosition: ReorderUtils.FIRST_POSITION,
       owner: cometUser
     })
+
     const defaultRole = em.create(Role, {
       name: 'Default',
       server: cometServer,
@@ -102,4 +103,33 @@ export async function seed(em: EntityManager) {
       favoritesUserFolder
     ])
   }
+
+  let secServer = await em.findOne(Server, { name: 'Sagittarius' })
+    if(!secServer){
+      const secUser = em.create(User, {
+        username: 'solidji',
+        isAdmin: false,
+        // avatarUrl: 'https://media.joincomet.app/sQAofmn1NgoJiTCVfz9D3.png',
+        passwordHash: await argon2.hash(
+          process.env.COMET_USER_PASSWORD || 'password'
+        )
+      })
+      secServer = em.create(Server, {
+        name: 'Sagittarius',
+        displayName: '人马座',
+        description: 'Official discussion and announcements relating to Sagittarius',
+        category: ServerCategory.Technology,
+        // avatarUrl: 'https://media.joincomet.app/sQAofmn1NgoJiTCVfz9D3.png',
+        // bannerUrl: 'https://media.joincomet.app/LKpM4IRyEmRTi49MGxgoQ.png',
+        isFeatured: true,
+        featuredPosition: ReorderUtils.FIRST_POSITION,
+        owner: secUser
+      })
+
+      await em.persistAndFlush([
+         secUser,
+        secServer
+      ])
+    }
+    
 }

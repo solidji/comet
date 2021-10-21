@@ -1,0 +1,7 @@
+fragment EventUser on EventUser {
+  id
+  eventJob
+  user {
+    ...User
+  }
+}

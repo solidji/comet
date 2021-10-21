@@ -1,0 +1,11 @@
+query event($id: ID!) @live {
+  event(id: $id) {
+    ...Event
+    owner {
+      ...User
+    }
+    server {
+      ...Server
+    }
+  }
+}

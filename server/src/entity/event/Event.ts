@@ -2,6 +2,7 @@ import { Field, ObjectType } from 'type-graphql'
 import { BaseEntity } from '@/entity/BaseEntity'
 import { Collection, Entity, ManyToOne, OneToMany, Property, QueryOrder, Embedded } from '@mikro-orm/core'
 import { User, EventUser, Server, Image } from '@/entity'
+import { GraphQLNonNegativeInt } from 'graphql-scalars'
 
 @ObjectType({ implements: BaseEntity})
 @Entity()
@@ -19,6 +20,7 @@ export class Event extends BaseEntity {
   @ManyToOne(() => User)
   owner: User
 
+  // @Field(() => [EventUser])
   @OneToMany(() => EventUser, 'event', {
     orderBy: { position: QueryOrder.ASC }
   })
@@ -49,10 +51,17 @@ export class Event extends BaseEntity {
   @Property()
   isPublic: boolean = true
 
+  @Field()
+  isJoined: boolean
+
   @Field(() => Server)
   @ManyToOne({ entity: () => Server })
   server: Server
 
+  @Field(() => GraphQLNonNegativeInt)
+  @Property({ unsigned: true })
+  userCount: number = 0
+  
   @Field()
   get relativeUrl(): string {
     const slug = this.title

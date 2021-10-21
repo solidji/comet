@@ -1,0 +1,5 @@
+query eventUsers($eventId: ID!) @live {
+  eventUsers(eventId: $eventId) {
+    ...EventUser
+  }
+}

@@ -1,0 +1,33 @@
+query events(
+  $sort: EventsSort
+  $offset: NonNegativeInt
+  $limit: PositiveInt
+  $time: EventsTime
+  $serverId: ID
+  $search: String
+) {
+  events(
+    sort: $sort
+    time: $time
+    serverId: $serverId
+    search: $search
+    offset: $offset
+    limit: $limit
+  ) {
+    hasMore
+    events {
+      ...Event
+      owner {
+        ...User
+      }
+      server {
+        id
+        name
+        avatarUrl
+        isDownvotesEnabled
+        displayName
+        permissions
+      }
+    }
+  }
+}

@@ -1,0 +1,11 @@
+fragment Event on Event {
+  id
+  title
+  description
+  bannerUrl
+  userCount
+  isJoined
+  owner {
+    id
+  }
+}

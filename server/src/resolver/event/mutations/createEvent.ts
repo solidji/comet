@@ -8,7 +8,8 @@ import {
   EventUser,
   Message,
   User,
-  Server
+  Server,
+  EventUserStatus
 } from '@/entity'
 import {handleUnderscore, logger, ReorderUtils, uploadImageFileSingle} from '@/util'
 
@@ -89,6 +90,7 @@ export async function createEvent(
     event,
     user: userId,
     eventJob: EventJobs.Moderator,
+    status: EventUserStatus.Joined,
     position: firstUser
       ? ReorderUtils.positionBefore(firstUser.position)
       : ReorderUtils.FIRST_POSITION
