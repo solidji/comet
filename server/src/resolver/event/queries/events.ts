@@ -79,8 +79,8 @@ export async function events(
   const user = userId ? await em.findOneOrFail(User, userId) : null
   let orderBy = {}
   if (sort === EventsSort.New) orderBy = { createdAt: QueryOrder.DESC }
-  else if (sort === EventsSort.Hot) orderBy = { hotRank: QueryOrder.DESC }
-  else if (sort === EventsSort.Top) orderBy = { voteCount: QueryOrder.DESC }
+  else if (sort === EventsSort.Hot) orderBy = { createdAt: QueryOrder.ASC }
+  else if (sort === EventsSort.Top) orderBy = { createdAt: QueryOrder.DESC }
 
   let servers: Server[] = []
 

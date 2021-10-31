@@ -1,1 +1,7 @@
 export * from './createEvent'
+export * from './updateEvent'
+export * from './deleteEvent'
+export * from './joinEvent'
+export * from './leaveEvent'
+export * from './setUserJob'
+export * from './addUserToEvent'

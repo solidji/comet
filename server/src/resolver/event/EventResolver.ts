@@ -12,7 +12,6 @@ import {
 } from 'type-graphql'
 import {
   Event,
-  Server,
   EventUser
 } from '@/entity'
 import { Context } from '@/types'
@@ -25,7 +24,19 @@ import {
 } from './queries'
 import {
   createEvent,
-  CreateEventInput
+  CreateEventInput,
+  updateEvent,
+  UpdateEventInput,
+  deleteEvent, 
+  DeleteEventInput,
+  joinEvent,
+  JoinEventInput,
+  leaveEvent,
+  LeaveEventInput,
+  setUserJob,
+  SetUserJobInput,
+  addUserToEvent,
+  AddUserToEventInput
 } from './mutations'
 import { GraphQLNonNegativeInt, GraphQLVoid } from 'graphql-scalars'
 import { ChangePayload, SubscriptionTopic } from '@/resolver/subscriptions'
@@ -58,13 +69,13 @@ export class EventResolver {
   //   return serverOnlineCountLoader.load(server.id)
   // }
 
-  // @FieldResolver(() => Boolean)
-  // async isJoined(
-  //   @Ctx() { loaders: { serverJoinedLoader } }: Context,
-  //   @Root() server: Server
-  // ): Promise<boolean> {
-  //   return serverJoinedLoader.load(server.id)
-  // }
+  @FieldResolver(() => Boolean)
+  async isJoined(
+    @Ctx() { loaders: { eventJoinedLoader } }: Context,
+    @Root() event: Event
+  ): Promise<boolean> {
+    return eventJoinedLoader.load(event.id)
+  }
 
   // --- Queries ---
   @Query(() => EventsResponse)
@@ -103,43 +114,61 @@ export class EventResolver {
     return createEvent(ctx, input)
   }
 
-  // @Authorized()
-  // @Mutation(() => Server)
-  // async updateServer(
-  //   @Ctx() ctx: Context,
-  //   @Arg('input') input: UpdateServerInput
-  // ): Promise<Server> {
-  //   return updateServer(ctx, input)
-  // }
+  @Authorized()
+  @Mutation(() => Event)
+  async updateEvent(
+    @Ctx() ctx: Context,
+    @Arg('input') input: UpdateEventInput
+  ): Promise<Event> {
+    return updateEvent(ctx, input)
+  }
 
-  // @Authorized()
-  // @Mutation(() => ID)
-  // async deleteServer(
-  //   @Ctx() ctx: Context,
-  //   @Arg('input') input: DeleteServerInput
-  // ): Promise<string> {
-  //   return deleteServer(ctx, input)
-  // }
+  @Authorized()
+  @Mutation(() => ID)
+  async deleteEvent(
+    @Ctx() ctx: Context,
+    @Arg('input') input: DeleteEventInput
+  ): Promise<string> {
+    return deleteEvent(ctx, input)
+  }
 
-  // @Authorized()
-  // @Mutation(() => Server)
-  // async joinServer(
-  //   @Ctx() ctx: Context,
-  //   @Arg('input') input: JoinServerInput,
-  //   @PubSub(SubscriptionTopic.MessageChanged)
-  //   notifyMessageChanged: Publisher<ChangePayload>
-  // ): Promise<Server> {
-  //   return joinServer(ctx, input, notifyMessageChanged)
-  // }
+  @Authorized()
+  @Mutation(() => Event)
+  async joinEvent(
+    @Ctx() ctx: Context,
+    @Arg('input') input: JoinEventInput,
+    @PubSub(SubscriptionTopic.EventChanged)
+    notifyEventChanged: Publisher<ChangePayload>
+  ): Promise<Event> {
+    return joinEvent(ctx, input, notifyEventChanged)
+  }
 
-  // @Authorized()
-  // @Mutation(() => Server)
-  // async leaveServer(
-  //   @Ctx() ctx: Context,
-  //   @Arg('input') input: LeaveServerInput
-  // ): Promise<Server> {
-  //   return leaveServer(ctx, input)
-  // }
+  @Authorized()
+  @Mutation(() => Event)
+  async leaveEvent(
+    @Ctx() ctx: Context,
+    @Arg('input') input: LeaveEventInput
+  ): Promise<Event> {
+    return leaveEvent(ctx, input)
+  }
+
+  @Authorized()
+  @Mutation(() => EventUser)
+  async setUserJob(
+    @Ctx() ctx: Context,
+    @Arg('input') input: SetUserJobInput
+  ): Promise<EventUser> {
+    return setUserJob(ctx, input)
+  }
+  
+  @Authorized()
+  @Mutation(() => EventUser)
+  async addUserToEvent(
+    @Ctx() ctx: Context,
+    @Arg('input') input: AddUserToEventInput
+  ): Promise<EventUser> {
+    return addUserToEvent(ctx, input)
+  }
 
   // @Authorized()
   // @Mutation(() => Boolean)
@@ -148,14 +177,5 @@ export class EventResolver {
   //   @Arg('input') input: KickUserFromServerInput
   // ): Promise<boolean> {
   //   return kickUserFromServer(ctx, input)
-  // }
-  
-  // @Authorized()
-  // @Mutation(() => Boolean)
-  // async addUserToServer(
-  //   @Ctx() ctx: Context,
-  //   @Arg('input') input: AddUserToServerInput
-  // ): Promise<boolean> {
-  //   return addUserToServer(ctx, input)
   // }
 }

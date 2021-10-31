@@ -26,14 +26,23 @@ export class Event extends BaseEntity {
   })
   userJoins = new Collection<EventUser>(this)
   
+  // who can view && who can join
   // @OneToMany(() => Condition, 'event', {
   //   orderBy: { position: QueryOrder.ASC }
   // })
   // conditions = new Collection<Condition>(this)
 
-  // @Field(() => [Image])
-  // @Embedded(() => Image, { object: true, array: true })
-  // document: Image[] = []
+  // the share document
+  // @Field(() => [Message])
+  // @Embedded(() => Message, { object: true, array: true })
+  // document: Message[] = []
+
+  // @OneToMany(() => Comment, 'post')
+  // comments = new Collection<Comment>(this)
+
+  // @Field(() => GraphQLNonNegativeInt)
+  // @Property({ unsigned: true })
+  // commentCount: number = 0
 
   @Field(() => [Image])
   @Embedded(() => Image, { object: true, array: true })

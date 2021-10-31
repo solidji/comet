@@ -11,6 +11,7 @@ import { postVoteLoader } from '@/util/loaders/post/PostVoteLoader'
 import { serverPermissionsLoader } from '@/util/loaders/server/ServerPermissionsLoader'
 import { serverRolesLoader } from '@/util/loaders/server/ServerRolesLoader'
 import { serverJoinedLoader } from '@/util/loaders/server/ServerJoinedLoader'
+import { eventJoinedLoader } from '@/util/loaders/event/EventJoinedLoader'
 import { relatedUsersLoader } from '@/util/loaders/user/RelatedUsersLoader'
 import { relationshipStatusLoader } from '@/util/loaders/user/RelationshipStatusLoader'
 import { userGroupsLoader } from '@/util/loaders/user/UserGroupsLoader'
@@ -45,6 +46,8 @@ export function createLoaders(em: EntityManager, userId: string): Loaders {
     serverRolesLoader: serverRolesLoader(em),
     serverOnlineCountLoader: serverOnlineCountLoader(em),
     serverJoinedLoader: serverJoinedLoader(em, userId),
+
+    eventJoinedLoader: eventJoinedLoader(em, userId),
 
     relatedUsersLoader: relatedUsersLoader(em, userId),
     relationshipStatusLoader: relationshipStatusLoader(em, userId),

@@ -33,5 +33,6 @@ export enum SubscriptionTopic {
    * @payload { username, channelId?, groupId?, userId? }
    * @response username: string
    */
-  TypingUpdated = 'TypingUpdated'
+  TypingUpdated = 'TypingUpdated',
+  EventChanged = 'EventChanged'
 }

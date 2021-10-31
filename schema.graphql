@@ -16,6 +16,11 @@ input AddPostToFolderInput {
   postId: ID!
 }
 
+input AddUserToEventInput {
+  eventId: ID!
+  userId: ID!
+}
+
 input AddUserToGroupInput {
   groupId: ID!
   userId: ID!
@@ -208,6 +213,10 @@ input DeleteCommentInput {
   commentId: ID!
 }
 
+input DeleteEventInput {
+  eventId: ID!
+}
+
 input DeleteFolderInput {
   folderId: ID!
 }
@@ -365,6 +374,10 @@ A field whose value is a JSON Web Token (JWT): https://jwt.io/introduction.
 """
 scalar JWT
 
+input JoinEventInput {
+  eventId: ID
+}
+
 input JoinServerInput {
   serverId: ID
 }
@@ -372,6 +385,10 @@ input JoinServerInput {
 input KickUserFromServerInput {
   serverId: ID!
   userId: ID!
+}
+
+input LeaveEventInput {
+  eventId: ID!
 }
 
 input LeaveGroupInput {
@@ -479,6 +496,7 @@ input MoveUserFolderInput {
 
 type Mutation {
   addPostToFolder(input: AddPostToFolderInput!): Folder!
+  addUserToEvent(input: AddUserToEventInput!): EventUser!
   addUserToGroup(input: AddUserToGroupInput!): Group!
   answerFriendRequest(input: AnswerFriendRequestInput!): User!
   banUserFromServer(input: BanUserFromServerInput!): Boolean!
@@ -501,6 +519,7 @@ type Mutation {
   deleteAccount(input: DeleteAccountInput!): Boolean!
   deleteChannel(input: DeleteChannelInput!): ID!
   deleteComment(input: DeleteCommentInput!): Comment!
+  deleteEvent(input: DeleteEventInput!): ID!
   deleteFolder(input: DeleteFolderInput!): Boolean!
   deleteFriendRequest(input: DeleteFriendRequestInput!): User!
   deleteMessage(input: DeleteMessageInput!): Boolean!
@@ -510,8 +529,10 @@ type Mutation {
   featureServer(input: FeatureServerInput!): Server!
   followFolder(input: FollowFolderInput!): Folder!
   globalBan(input: GlobalBanInput!): Boolean!
+  joinEvent(input: JoinEventInput!): Event!
   joinServer(input: JoinServerInput!): Server!
   kickUserFromServer(input: KickUserFromServerInput!): Boolean!
+  leaveEvent(input: LeaveEventInput!): Event!
   leaveGroup(input: LeaveGroupInput!): Boolean!
   leaveServer(input: LeaveServerInput!): Server!
   login(input: LoginInput!): LoginResponse!
@@ -532,6 +553,7 @@ type Mutation {
   removeFriend(input: RemoveFriendInput!): User!
   removePostFromFolder(input: RemovePostFromFolderInput!): Folder!
   removeUserFromGroup(input: RemoveUserFromGroupInput!): Group!
+  setUserJob(input: SetUserJobInput!): EventUser!
   setUserRole(input: SetUserRoleInput!): ServerUser!
   unbanUserFromServer(input: UnbanUserFromServerInput!): Boolean!
   unblockUser(input: UnblockUserInput!): User!
@@ -543,6 +565,7 @@ type Mutation {
   updateChannel(input: UpdateChannelInput!): Channel!
   updateComment(input: UpdateCommentInput!): Comment!
   updateCommentVote(input: UpdateCommentVoteInput!): Comment!
+  updateEvent(input: UpdateEventInput!): Event!
   updateFolder(input: UpdateFolderInput!): Folder!
   updateGroup(input: UpdateGroupInput!): Group!
   updateMessage(input: UpdateMessageInput!): Message!
@@ -797,6 +820,12 @@ type ServerUser {
   user: User!
 }
 
+input SetUserJobInput {
+  eventId: ID!
+  eventJob: EventJobs = Collaborator
+  userId: ID!
+}
+
 input SetUserRoleInput {
   roleId: ID!
   userId: ID!
@@ -865,6 +894,13 @@ input UpdateCommentInput {
 input UpdateCommentVoteInput {
   commentId: ID!
   type: VoteType!
+}
+
+input UpdateEventInput {
+  bannerFile: Upload
+  description: String
+  eventId: ID!
+  title: String!
 }
 
 input UpdateFolderInput {

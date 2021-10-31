@@ -28,7 +28,6 @@ export class CreateEventInput {
 
   @Field(() => ID)
   serverId: string
-
 }
 
 export async function createEvent(
@@ -36,10 +35,8 @@ export async function createEvent(
   { title, description, bannerFile, serverId }: CreateEventInput
 ): Promise<Event> {
   logger('createEvent')
-
-  const ownerCount = await em.count(Server, { owner: userId })
-  if (ownerCount >= 10) throw new Error('Cannot own more than 10 planets')
-
+  // const ownerCount = await em.count(Server, { owner: userId })
+  // if (ownerCount >= 10) throw new Error('Cannot own more than 10 planets')
   title = title.trim()
   description = description.trim()
 

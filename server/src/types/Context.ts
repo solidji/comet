@@ -38,6 +38,8 @@ export interface Loaders {
   serverOnlineCountLoader: DataLoader<string, number>
   serverJoinedLoader: DataLoader<string, boolean>
 
+  eventJoinedLoader: DataLoader<string, boolean>
+
   relatedUsersLoader: DataLoader<string, User[]>
   relationshipStatusLoader: DataLoader<string, RelationshipStatus>
   userFoldersLoader: DataLoader<string, Folder[]>
