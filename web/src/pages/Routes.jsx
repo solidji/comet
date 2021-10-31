@@ -11,6 +11,7 @@ import ExplorePage from '@/pages/explore/ExplorePage'
 import InboxPage from '@/pages/inbox/InboxPage'
 import DmPage from '@/pages/dm/DmPage'
 import ServerPostsPage from '@/pages/server/ServerPostsPage'
+import EventsPage from '@/pages/event/EventsPage'
 import ServerFolderPage from '@/pages/server/ServerFolderPage'
 import PostPage from '@/pages/post/PostPage'
 import HomeSidebar from '@/pages/HomeSidebar'
@@ -45,6 +46,9 @@ export default function Routes() {
               '/inbox',
               `/dm/:username(${usernameRegex})`,
               `/:server(${serverRegex})`,
+              `/:server(${serverRegex})/event`,
+              `/:server(${serverRegex})/event/:eventId`,
+              `/:server(${serverRegex})/event/:eventId/:slug`,
               `/:server(${serverRegex})/post/:postId`,
               `/:server(${serverRegex})/post/:postId/:slug`,
               '/explore'
@@ -141,6 +145,20 @@ function ServerPages() {
         ]}
       >
         <PostPage postId={postId} />
+      </Route>
+      <Route
+        path={`/:server(${serverRegex})/event`}
+        exact
+      >
+        <EventsPage />
+      </Route>
+      <Route
+        path={[
+          `/:server(${serverRegex})/event/:eventId`,
+          `/:server(${serverRegex})/event/:eventId/:slug`
+        ]}
+      >
+        <div>活动页面</div>
       </Route>
     </>
   )

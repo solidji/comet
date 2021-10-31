@@ -28,7 +28,7 @@ export default function App() {
             name="viewport"
             content="width=device-width, initial-scale=1.0"
           />
-          <title>Comet – All-in-one chat & forums for communities</title>
+          <title>Fami+ – All-in-one chat & forums for communities</title>
         </Helmet>
 
         <UserProvider>

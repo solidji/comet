@@ -8,7 +8,7 @@ import EndReached from '@/components/ui/EndReached'
 export default function Posts({ folderId, serverId, showServerName, header }) {
   const virtuoso = useRef(null)
 
-  const [posts, fetching, fetchMore, hasMore] = usePosts({ folderId, serverId })
+  const [posts, loading, loadMore, hasMore] = usePosts({ folderId, serverId })
 
   const postRenderer = useCallback(
     (postsList, index) => {
@@ -26,21 +26,21 @@ export default function Posts({ folderId, serverId, showServerName, header }) {
   return (
     <>
       <Virtuoso
-        className="scrollbar-custom dark:bg-gray-750 bg-gray-100"
+        className="bg-gray-100 scrollbar-custom dark:bg-gray-750"
         components={{
           Header: header ? () => header : null,
           Footer: () =>
-            hasMore ? (
+            hasMore ? ( loading ? <IconSpinner /> :
               <div className="flex items-center justify-center h-20">
-                <IconSpinner />
+                <button onClick={loadMore}>press to load more</button>
               </div>
             ) : (
               <EndReached />
             )
         }}
         endReached={() => {
-          if (!fetching && hasMore) {
-            fetchMore()
+          if (!loading && hasMore) {
+            loadMore()
           }
         }}
         itemContent={i => postRenderer(posts, i)}

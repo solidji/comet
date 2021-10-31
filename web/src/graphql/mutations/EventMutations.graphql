@@ -1,0 +1,48 @@
+mutation createEvent($input: CreateEventInput!) {
+  createEvent(input: $input) {
+    ...Event
+    owner {
+      ...User
+    }
+  }
+}
+
+mutation updateEvent($input: UpdateEventInput!) {
+  updateEvent(input: $input) {
+    ...Event
+    owner {
+      ...User
+    }
+  }
+}
+
+mutation deleteEvent($input: DeleteEventInput!) {
+  deleteEvent(input: $input)
+}
+
+mutation joinEvent($input: JoinEventInput!) {
+  joinEvent(input: $input) {
+    ...Event
+    owner {
+      ...User
+    }
+  }
+}
+
+mutation leaveEvent($input: LeaveEventInput!) {
+  leaveEvent(input: $input) {
+    ...Event
+  }
+}
+
+mutation setUserJob($input: SetUserJobInput!) {
+  setUserJob(input: $input) {
+    ...EventUser
+  }
+}
+
+mutation addUserToEvent($input: AddUserToEventInput!) {
+  addUserToEvent(input: $input) {
+    ...EventUser
+  }
+}

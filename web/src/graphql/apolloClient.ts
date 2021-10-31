@@ -1,4 +1,4 @@
-import { ApolloClient, InMemoryCache, from } from '@apollo/client'
+import { ApolloClient, InMemoryCache, from, Reference } from '@apollo/client'
 import { getMainDefinition } from '@apollo/client/utilities'
 import { onError } from '@apollo/client/link/error'
 import { RetryLink } from '@apollo/client/link/retry'
@@ -8,6 +8,7 @@ import { UploadLink } from '@/graphql/upload'
 import i18n from '@/locales/i18n'
 import { WebSocketLink } from '@/graphql/WebSocketLink'
 import { setContext } from '@apollo/client/link/context'
+// import _ from 'lodash'
 
 const url = import.meta.env.PROD
   ? `https://${import.meta.env.VITE_API_DOMAIN}/graphql`
@@ -167,6 +168,60 @@ export const apolloClient = new ApolloClient({
           },
           publicServers: {
             merge: false
+          },
+          posts: {
+            keyArgs: ['serverId', 'folderId', 'sort', 'feed', 'time'],
+            merge(existing, incoming, { args: { offset = 0 }}) {
+              // Slicing is necessary because the existing data is
+              // immutable, and frozen in development.
+              let merged: Reference[] = [];
+              if (existing && existing.posts) {
+                merged = existing.posts.slice(0)
+              } 
+              if (incoming && incoming.posts) {
+                for (let i = 0; i < incoming.posts.length; ++i) {
+                  merged[offset + i] = incoming.posts[i]
+                }
+              }
+              
+              return {
+                hasMore: incoming ? incoming.hasMore : false,
+                posts: merged
+              };
+            },
+            // merge(existing, incoming) {
+            //   let posts: Reference[] = [];
+            //   if (existing && existing.posts) {
+            //     posts = posts.concat(existing.posts);
+            //   }
+            //   if (incoming && incoming.posts) {
+            //     posts = posts.concat(incoming.posts);
+            //   }
+            //   posts = _.uniqBy(posts, (i)=>i['__ref']);
+            //   return {
+            //     ...incoming,
+            //     posts,
+            //   };
+            // }
+          },
+          events: {
+            keyArgs: ['serverId', 'sort', 'time'],
+            merge(existing, incoming, { args: { offset = 0 }}) {
+              let merged: Reference[] = [];
+              if (existing && existing.events) {
+                merged = existing.events.slice(0)
+              } 
+              if (incoming && incoming.events) {
+                for (let i = 0; i < incoming.events.length; ++i) {
+                  merged[offset + i] = incoming.events[i]
+                }
+              }
+              
+              return {
+                hasMore: incoming ? incoming.hasMore : false,
+                events: merged
+              };
+            }, 
           }
         }
       }

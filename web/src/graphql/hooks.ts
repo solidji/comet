@@ -36,6 +36,11 @@ export type AddPostToFolderInput = {
   postId: Scalars['ID'];
 };
 
+export type AddUserToEventInput = {
+  eventId: Scalars['ID'];
+  userId: Scalars['ID'];
+};
+
 export type AddUserToGroupInput = {
   groupId: Scalars['ID'];
   userId: Scalars['ID'];
@@ -227,6 +232,10 @@ export type DeleteCommentInput = {
   commentId: Scalars['ID'];
 };
 
+export type DeleteEventInput = {
+  eventId: Scalars['ID'];
+};
+
 export type DeleteFolderInput = {
   folderId: Scalars['ID'];
 };
@@ -379,6 +388,10 @@ export type Image = {
 };
 
 
+export type JoinEventInput = {
+  eventId?: Maybe<Scalars['ID']>;
+};
+
 export type JoinServerInput = {
   serverId?: Maybe<Scalars['ID']>;
 };
@@ -386,6 +399,10 @@ export type JoinServerInput = {
 export type KickUserFromServerInput = {
   serverId: Scalars['ID'];
   userId: Scalars['ID'];
+};
+
+export type LeaveEventInput = {
+  eventId: Scalars['ID'];
 };
 
 export type LeaveGroupInput = {
@@ -499,6 +516,7 @@ export type MoveUserFolderInput = {
 export type Mutation = {
   __typename?: 'Mutation';
   addPostToFolder: Folder;
+  addUserToEvent: EventUser;
   addUserToGroup: Group;
   answerFriendRequest: User;
   banUserFromServer: Scalars['Boolean'];
@@ -521,6 +539,7 @@ export type Mutation = {
   deleteAccount: Scalars['Boolean'];
   deleteChannel: Scalars['ID'];
   deleteComment: Comment;
+  deleteEvent: Scalars['ID'];
   deleteFolder: Scalars['Boolean'];
   deleteFriendRequest: User;
   deleteMessage: Scalars['Boolean'];
@@ -530,8 +549,10 @@ export type Mutation = {
   featureServer: Server;
   followFolder: Folder;
   globalBan: Scalars['Boolean'];
+  joinEvent: Event;
   joinServer: Server;
   kickUserFromServer: Scalars['Boolean'];
+  leaveEvent: Event;
   leaveGroup: Scalars['Boolean'];
   leaveServer: Server;
   login: LoginResponse;
@@ -552,6 +573,7 @@ export type Mutation = {
   removeFriend: User;
   removePostFromFolder: Folder;
   removeUserFromGroup: Group;
+  setUserJob: EventUser;
   setUserRole: ServerUser;
   unbanUserFromServer: Scalars['Boolean'];
   unblockUser: User;
@@ -563,6 +585,7 @@ export type Mutation = {
   updateChannel: Channel;
   updateComment: Comment;
   updateCommentVote: Comment;
+  updateEvent: Event;
   updateFolder: Folder;
   updateGroup: Group;
   updateMessage: Message;
@@ -576,6 +599,11 @@ export type Mutation = {
 
 export type MutationAddPostToFolderArgs = {
   input: AddPostToFolderInput;
+};
+
+
+export type MutationAddUserToEventArgs = {
+  input: AddUserToEventInput;
 };
 
 
@@ -689,6 +717,11 @@ export type MutationDeleteCommentArgs = {
 };
 
 
+export type MutationDeleteEventArgs = {
+  input: DeleteEventInput;
+};
+
+
 export type MutationDeleteFolderArgs = {
   input: DeleteFolderInput;
 };
@@ -734,6 +767,11 @@ export type MutationGlobalBanArgs = {
 };
 
 
+export type MutationJoinEventArgs = {
+  input: JoinEventInput;
+};
+
+
 export type MutationJoinServerArgs = {
   input: JoinServerInput;
 };
@@ -741,6 +779,11 @@ export type MutationJoinServerArgs = {
 
 export type MutationKickUserFromServerArgs = {
   input: KickUserFromServerInput;
+};
+
+
+export type MutationLeaveEventArgs = {
+  input: LeaveEventInput;
 };
 
 
@@ -844,6 +887,11 @@ export type MutationRemoveUserFromGroupArgs = {
 };
 
 
+export type MutationSetUserJobArgs = {
+  input: SetUserJobInput;
+};
+
+
 export type MutationSetUserRoleArgs = {
   input: SetUserRoleInput;
 };
@@ -896,6 +944,11 @@ export type MutationUpdateCommentArgs = {
 
 export type MutationUpdateCommentVoteArgs = {
   input: UpdateCommentVoteInput;
+};
+
+
+export type MutationUpdateEventArgs = {
+  input: UpdateEventInput;
 };
 
 
@@ -1275,6 +1328,12 @@ export type ServerUser = {
   user: User;
 };
 
+export type SetUserJobInput = {
+  eventId: Scalars['ID'];
+  eventJob?: Maybe<EventJobs>;
+  userId: Scalars['ID'];
+};
+
 export type SetUserRoleInput = {
   roleId: Scalars['ID'];
   userId: Scalars['ID'];
@@ -1352,6 +1411,13 @@ export type UpdateCommentInput = {
 export type UpdateCommentVoteInput = {
   commentId: Scalars['ID'];
   type: VoteType;
+};
+
+export type UpdateEventInput = {
+  bannerFile?: Maybe<Scalars['Upload']>;
+  description?: Maybe<Scalars['String']>;
+  eventId: Scalars['ID'];
+  title: Scalars['String'];
 };
 
 export type UpdateFolderInput = {
@@ -1484,7 +1550,7 @@ export type CurrentUserFragment = (
 
 export type EventFragment = (
   { __typename?: 'Event' }
-  & Pick<Event, 'id' | 'title' | 'description' | 'bannerUrl' | 'userCount' | 'isJoined'>
+  & Pick<Event, 'id' | 'title' | 'description' | 'bannerUrl' | 'userCount' | 'isJoined' | 'relativeUrl'>
   & { owner: (
     { __typename?: 'User' }
     & Pick<User, 'id'>
@@ -1807,6 +1873,106 @@ export type UnpinCommentMutation = (
       & ServerUserFragment
     )> }
     & CommentFragment
+  ) }
+);
+
+export type CreateEventMutationVariables = Exact<{
+  input: CreateEventInput;
+}>;
+
+
+export type CreateEventMutation = (
+  { __typename?: 'Mutation' }
+  & { createEvent: (
+    { __typename?: 'Event' }
+    & { owner: (
+      { __typename?: 'User' }
+      & UserFragment
+    ) }
+    & EventFragment
+  ) }
+);
+
+export type UpdateEventMutationVariables = Exact<{
+  input: UpdateEventInput;
+}>;
+
+
+export type UpdateEventMutation = (
+  { __typename?: 'Mutation' }
+  & { updateEvent: (
+    { __typename?: 'Event' }
+    & { owner: (
+      { __typename?: 'User' }
+      & UserFragment
+    ) }
+    & EventFragment
+  ) }
+);
+
+export type DeleteEventMutationVariables = Exact<{
+  input: DeleteEventInput;
+}>;
+
+
+export type DeleteEventMutation = (
+  { __typename?: 'Mutation' }
+  & Pick<Mutation, 'deleteEvent'>
+);
+
+export type JoinEventMutationVariables = Exact<{
+  input: JoinEventInput;
+}>;
+
+
+export type JoinEventMutation = (
+  { __typename?: 'Mutation' }
+  & { joinEvent: (
+    { __typename?: 'Event' }
+    & { owner: (
+      { __typename?: 'User' }
+      & UserFragment
+    ) }
+    & EventFragment
+  ) }
+);
+
+export type LeaveEventMutationVariables = Exact<{
+  input: LeaveEventInput;
+}>;
+
+
+export type LeaveEventMutation = (
+  { __typename?: 'Mutation' }
+  & { leaveEvent: (
+    { __typename?: 'Event' }
+    & EventFragment
+  ) }
+);
+
+export type SetUserJobMutationVariables = Exact<{
+  input: SetUserJobInput;
+}>;
+
+
+export type SetUserJobMutation = (
+  { __typename?: 'Mutation' }
+  & { setUserJob: (
+    { __typename?: 'EventUser' }
+    & EventUserFragment
+  ) }
+);
+
+export type AddUserToEventMutationVariables = Exact<{
+  input: AddUserToEventInput;
+}>;
+
+
+export type AddUserToEventMutation = (
+  { __typename?: 'Mutation' }
+  & { addUserToEvent: (
+    { __typename?: 'EventUser' }
+    & EventUserFragment
   ) }
 );
 
@@ -3221,6 +3387,7 @@ export const EventFragmentDoc = gql`
   bannerUrl
   userCount
   isJoined
+  relativeUrl
   owner {
     id
   }
@@ -3802,6 +3969,247 @@ export function useUnpinCommentMutation(baseOptions?: Apollo.MutationHookOptions
 export type UnpinCommentMutationHookResult = ReturnType<typeof useUnpinCommentMutation>;
 export type UnpinCommentMutationResult = Apollo.MutationResult<UnpinCommentMutation>;
 export type UnpinCommentMutationOptions = Apollo.BaseMutationOptions<UnpinCommentMutation, UnpinCommentMutationVariables>;
+export const CreateEventDocument = gql`
+    mutation createEvent($input: CreateEventInput!) {
+  createEvent(input: $input) {
+    ...Event
+    owner {
+      ...User
+    }
+  }
+}
+    ${EventFragmentDoc}
+${UserFragmentDoc}`;
+export type CreateEventMutationFn = Apollo.MutationFunction<CreateEventMutation, CreateEventMutationVariables>;
+
+/**
+ * __useCreateEventMutation__
+ *
+ * To run a mutation, you first call `useCreateEventMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useCreateEventMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [createEventMutation, { data, loading, error }] = useCreateEventMutation({
+ *   variables: {
+ *      input: // value for 'input'
+ *   },
+ * });
+ */
+export function useCreateEventMutation(baseOptions?: Apollo.MutationHookOptions<CreateEventMutation, CreateEventMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<CreateEventMutation, CreateEventMutationVariables>(CreateEventDocument, options);
+      }
+export type CreateEventMutationHookResult = ReturnType<typeof useCreateEventMutation>;
+export type CreateEventMutationResult = Apollo.MutationResult<CreateEventMutation>;
+export type CreateEventMutationOptions = Apollo.BaseMutationOptions<CreateEventMutation, CreateEventMutationVariables>;
+export const UpdateEventDocument = gql`
+    mutation updateEvent($input: UpdateEventInput!) {
+  updateEvent(input: $input) {
+    ...Event
+    owner {
+      ...User
+    }
+  }
+}
+    ${EventFragmentDoc}
+${UserFragmentDoc}`;
+export type UpdateEventMutationFn = Apollo.MutationFunction<UpdateEventMutation, UpdateEventMutationVariables>;
+
+/**
+ * __useUpdateEventMutation__
+ *
+ * To run a mutation, you first call `useUpdateEventMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useUpdateEventMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [updateEventMutation, { data, loading, error }] = useUpdateEventMutation({
+ *   variables: {
+ *      input: // value for 'input'
+ *   },
+ * });
+ */
+export function useUpdateEventMutation(baseOptions?: Apollo.MutationHookOptions<UpdateEventMutation, UpdateEventMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<UpdateEventMutation, UpdateEventMutationVariables>(UpdateEventDocument, options);
+      }
+export type UpdateEventMutationHookResult = ReturnType<typeof useUpdateEventMutation>;
+export type UpdateEventMutationResult = Apollo.MutationResult<UpdateEventMutation>;
+export type UpdateEventMutationOptions = Apollo.BaseMutationOptions<UpdateEventMutation, UpdateEventMutationVariables>;
+export const DeleteEventDocument = gql`
+    mutation deleteEvent($input: DeleteEventInput!) {
+  deleteEvent(input: $input)
+}
+    `;
+export type DeleteEventMutationFn = Apollo.MutationFunction<DeleteEventMutation, DeleteEventMutationVariables>;
+
+/**
+ * __useDeleteEventMutation__
+ *
+ * To run a mutation, you first call `useDeleteEventMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useDeleteEventMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [deleteEventMutation, { data, loading, error }] = useDeleteEventMutation({
+ *   variables: {
+ *      input: // value for 'input'
+ *   },
+ * });
+ */
+export function useDeleteEventMutation(baseOptions?: Apollo.MutationHookOptions<DeleteEventMutation, DeleteEventMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<DeleteEventMutation, DeleteEventMutationVariables>(DeleteEventDocument, options);
+      }
+export type DeleteEventMutationHookResult = ReturnType<typeof useDeleteEventMutation>;
+export type DeleteEventMutationResult = Apollo.MutationResult<DeleteEventMutation>;
+export type DeleteEventMutationOptions = Apollo.BaseMutationOptions<DeleteEventMutation, DeleteEventMutationVariables>;
+export const JoinEventDocument = gql`
+    mutation joinEvent($input: JoinEventInput!) {
+  joinEvent(input: $input) {
+    ...Event
+    owner {
+      ...User
+    }
+  }
+}
+    ${EventFragmentDoc}
+${UserFragmentDoc}`;
+export type JoinEventMutationFn = Apollo.MutationFunction<JoinEventMutation, JoinEventMutationVariables>;
+
+/**
+ * __useJoinEventMutation__
+ *
+ * To run a mutation, you first call `useJoinEventMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useJoinEventMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [joinEventMutation, { data, loading, error }] = useJoinEventMutation({
+ *   variables: {
+ *      input: // value for 'input'
+ *   },
+ * });
+ */
+export function useJoinEventMutation(baseOptions?: Apollo.MutationHookOptions<JoinEventMutation, JoinEventMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<JoinEventMutation, JoinEventMutationVariables>(JoinEventDocument, options);
+      }
+export type JoinEventMutationHookResult = ReturnType<typeof useJoinEventMutation>;
+export type JoinEventMutationResult = Apollo.MutationResult<JoinEventMutation>;
+export type JoinEventMutationOptions = Apollo.BaseMutationOptions<JoinEventMutation, JoinEventMutationVariables>;
+export const LeaveEventDocument = gql`
+    mutation leaveEvent($input: LeaveEventInput!) {
+  leaveEvent(input: $input) {
+    ...Event
+  }
+}
+    ${EventFragmentDoc}`;
+export type LeaveEventMutationFn = Apollo.MutationFunction<LeaveEventMutation, LeaveEventMutationVariables>;
+
+/**
+ * __useLeaveEventMutation__
+ *
+ * To run a mutation, you first call `useLeaveEventMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useLeaveEventMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [leaveEventMutation, { data, loading, error }] = useLeaveEventMutation({
+ *   variables: {
+ *      input: // value for 'input'
+ *   },
+ * });
+ */
+export function useLeaveEventMutation(baseOptions?: Apollo.MutationHookOptions<LeaveEventMutation, LeaveEventMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<LeaveEventMutation, LeaveEventMutationVariables>(LeaveEventDocument, options);
+      }
+export type LeaveEventMutationHookResult = ReturnType<typeof useLeaveEventMutation>;
+export type LeaveEventMutationResult = Apollo.MutationResult<LeaveEventMutation>;
+export type LeaveEventMutationOptions = Apollo.BaseMutationOptions<LeaveEventMutation, LeaveEventMutationVariables>;
+export const SetUserJobDocument = gql`
+    mutation setUserJob($input: SetUserJobInput!) {
+  setUserJob(input: $input) {
+    ...EventUser
+  }
+}
+    ${EventUserFragmentDoc}`;
+export type SetUserJobMutationFn = Apollo.MutationFunction<SetUserJobMutation, SetUserJobMutationVariables>;
+
+/**
+ * __useSetUserJobMutation__
+ *
+ * To run a mutation, you first call `useSetUserJobMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useSetUserJobMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [setUserJobMutation, { data, loading, error }] = useSetUserJobMutation({
+ *   variables: {
+ *      input: // value for 'input'
+ *   },
+ * });
+ */
+export function useSetUserJobMutation(baseOptions?: Apollo.MutationHookOptions<SetUserJobMutation, SetUserJobMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<SetUserJobMutation, SetUserJobMutationVariables>(SetUserJobDocument, options);
+      }
+export type SetUserJobMutationHookResult = ReturnType<typeof useSetUserJobMutation>;
+export type SetUserJobMutationResult = Apollo.MutationResult<SetUserJobMutation>;
+export type SetUserJobMutationOptions = Apollo.BaseMutationOptions<SetUserJobMutation, SetUserJobMutationVariables>;
+export const AddUserToEventDocument = gql`
+    mutation addUserToEvent($input: AddUserToEventInput!) {
+  addUserToEvent(input: $input) {
+    ...EventUser
+  }
+}
+    ${EventUserFragmentDoc}`;
+export type AddUserToEventMutationFn = Apollo.MutationFunction<AddUserToEventMutation, AddUserToEventMutationVariables>;
+
+/**
+ * __useAddUserToEventMutation__
+ *
+ * To run a mutation, you first call `useAddUserToEventMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useAddUserToEventMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [addUserToEventMutation, { data, loading, error }] = useAddUserToEventMutation({
+ *   variables: {
+ *      input: // value for 'input'
+ *   },
+ * });
+ */
+export function useAddUserToEventMutation(baseOptions?: Apollo.MutationHookOptions<AddUserToEventMutation, AddUserToEventMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<AddUserToEventMutation, AddUserToEventMutationVariables>(AddUserToEventDocument, options);
+      }
+export type AddUserToEventMutationHookResult = ReturnType<typeof useAddUserToEventMutation>;
+export type AddUserToEventMutationResult = Apollo.MutationResult<AddUserToEventMutation>;
+export type AddUserToEventMutationOptions = Apollo.BaseMutationOptions<AddUserToEventMutation, AddUserToEventMutationVariables>;
 export const CreateFolderDocument = gql`
     mutation createFolder($input: CreateFolderInput!) {
   createFolder(input: $input) {

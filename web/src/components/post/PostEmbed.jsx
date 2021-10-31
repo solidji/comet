@@ -4,7 +4,6 @@ import { useState } from 'react'
 import MessageImageDialog from '@/components/message/MessageImageDialog'
 
 export default function PostEmbed({ metadata, dark = false }) {
-  console.log("🚀 ~ file: PostEmbed.jsx ~ line 7 ~ PostEmbed ~ metadata", metadata)
   const [playing, setPlaying] = useState(false)
   const embeddable = canEmbed(metadata.url)
   const themeColor = metadata.themeColor

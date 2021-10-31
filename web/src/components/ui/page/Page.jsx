@@ -1,6 +1,6 @@
 export default function Page({ children, header, rightSidebar, leftSidebar }) {
   return (
-    <div className="flex flex-grow">
+    <div className="flex flex-grow overflow-hidden">
       {leftSidebar}
       <div className="flex flex-col flex-grow">
         {header}

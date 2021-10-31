@@ -5,5 +5,6 @@ export const ContextMenuType = {
   Message: 'Message',
   Server: 'Server',
   Folder: 'Folder',
-  Channel: 'Channel'
+  Channel: 'Channel',
+  Event: 'Event'
 }

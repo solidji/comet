@@ -32,10 +32,10 @@ export default function ExplorePage() {
   return (
     <Page leftSidebar={<ExploreSidebar />} header={<Header title="Explore" icon={<IconExplore className="w-5 h-5" />} />}>
       <Helmet>
-        <title>Explore Planets – Comet</title>
+        <title>Explore Planets – Fami+</title>
       </Helmet>
       <PageView>
-        <div className="md:px-8 md:py-8 px-0 py-0">
+        <div className="px-0 py-0 md:px-8 md:py-8">
           <div className="grid grid-cols-1 gap-4 lg:grid-cols-3 2xl:grid-cols-5">
             {servers.map(server => (
               <ServerInfoCard server={server} key={server.id} />

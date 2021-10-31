@@ -15,6 +15,7 @@ import { search } from './search'
 import { server } from './server'
 import { settings } from './settings'
 import { user } from './user'
+import { event } from './event'
 
 export const zh_CN = {
   home: '主页',
@@ -40,5 +41,6 @@ export const zh_CN = {
   search,
   server,
   settings,
+  event,
   user
 }

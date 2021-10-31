@@ -86,10 +86,10 @@ export default memo(function Post({
           }
         }}
       >
-        {/*<div className="absolute top-3 right-3 flex items-center">
+        {/*<div className="absolute flex items-center top-3 right-3">
           {post.linkMetadata?.logo && (
             <div
-              className="h-6 w-6 rounded-full transform transition opacity-50 group-hover:opacity-100 group-hover:scale-105 group-hover:shadow-md dark:bg-gray-725 bg-contain bg-center"
+              className="w-6 h-6 transition transform bg-center bg-contain rounded-full opacity-50 group-hover:opacity-100 group-hover:scale-105 group-hover:shadow-md dark:bg-gray-725"
               style={
                 post.linkMetadata?.logo
                   ? { backgroundImage: `url(${post.linkMetadata?.logo})` }
@@ -99,7 +99,7 @@ export default memo(function Post({
           )}
 
           {!!(index + 1) && (
-            <div className="ml-2 w-6 h-6 leading-none flex items-center justify-center text-xs font-medium text-mid transform transition opacity-50 group-hover:opacity-100 group-hover:scale-105">
+            <div className="flex items-center justify-center w-6 h-6 ml-2 text-xs font-medium leading-none transition transform opacity-50 text-mid group-hover:opacity-100 group-hover:scale-105">
               #{index + 1}
             </div>
           )}
@@ -224,13 +224,13 @@ export default memo(function Post({
           </div>
         )}
 
-        <div className="pr-4 flex-grow flex flex-col">
+        <div className="flex flex-col flex-grow pr-4">
           <div className="flex flex-wrap items-center pb-1.5" onClick={onClick}>
             <Link to={`/+${post.server.name}`} className="flex items-center">
               <ServerAvatar
                 server={post.server}
                 size={5}
-                className="dark:bg-gray-750 rounded-full"
+                className="rounded-full dark:bg-gray-750"
               />
               <span className="ml-1.5 text-xs font-medium text-secondary">
                 {post.server.displayName}
@@ -246,20 +246,20 @@ export default memo(function Post({
             >
               <UserPopup user={post.author} role={post.serverUser?.role}>
                 <div
-                  className="ml-1 cursor-pointer text-tertiary text-xs font-medium leading-none"
+                  className="ml-1 text-xs font-medium leading-none cursor-pointer text-tertiary"
                   style={{ color: post.serverUser?.role?.color }}
                 >
                   {post.author?.username ?? '[deleted]'}
                 </div>
               </UserPopup>
             </ContextMenuTrigger>
-            <div className="text-xs text-mid font-medium">
+            <div className="text-xs font-medium text-mid">
               &nbsp;&middot;&nbsp;
               <span className="text-xs text-mid">({type})</span>
             </div>
           </div>
 
-          <div className="text-secondary font-medium text-base">
+          <div className="text-base font-medium text-secondary">
             {post.title}
           </div>
 
@@ -277,7 +277,7 @@ export default memo(function Post({
                 {!!post.linkUrl && (
                   <>
                     {post.linkMetadata ? (
-                      <div className="max-w-screen-sm w-full mt-2">
+                      <div className="w-full max-w-screen-sm mt-2">
                         <PostEmbed dark metadata={post.linkMetadata} />
                       </div>
                     ) : (
@@ -295,7 +295,7 @@ export default memo(function Post({
 
                 {!!post.images.length && (
                   <div className="mt-2 max-w-[400px]">
-                    <div className="flex relative">
+                    <div className="relative flex">
                       <div className="w-full h-[300px] relative flex items-center justify-center dark:bg-gray-775">
                         {post.images.map((image, i) => (
                           <div
@@ -326,7 +326,7 @@ export default memo(function Post({
                           {currentImage > 0 && (
                             <div
                               onClick={() => setCurrentImage(currentImage - 1)}
-                              className="absolute left-3 top-1/2 transform -translate-y-1/2 rounded-full shadow flex items-center justify-center w-10 h-10 dark:bg-white"
+                              className="absolute flex items-center justify-center w-10 h-10 transform -translate-y-1/2 rounded-full shadow left-3 top-1/2 dark:bg-white"
                             >
                               <IconChevronLeft className="w-5 h-5 dark:text-black" />
                             </div>
@@ -335,7 +335,7 @@ export default memo(function Post({
                           {currentImage < post.images.length - 1 && (
                             <div
                               onClick={() => setCurrentImage(currentImage + 1)}
-                              className="absolute right-3 top-1/2 transform -translate-y-1/2 rounded-full shadow flex items-center justify-center w-10 h-10 dark:bg-white"
+                              className="absolute flex items-center justify-center w-10 h-10 transform -translate-y-1/2 rounded-full shadow right-3 top-1/2 dark:bg-white"
                             >
                               <IconChevronRight className="w-5 h-5 dark:text-black" />
                             </div>
@@ -346,10 +346,10 @@ export default memo(function Post({
                     {!!post.images.find(
                       image => image.caption || image.linkUrl
                     ) && (
-                      <div className="h-12 dark:bg-gray-750 flex items-center px-5 text-sm select-none">
+                      <div className="flex items-center h-12 px-5 text-sm select-none dark:bg-gray-750">
                         {post.images[currentImage].caption && (
                           <div
-                            className="text-primary truncate pr-3"
+                            className="pr-3 truncate text-primary"
                             title={post.images[currentImage].caption}
                           >
                             {post.images[currentImage].caption}
@@ -361,7 +361,7 @@ export default memo(function Post({
                             href={post.images[currentImage].linkUrl}
                             target="_blank"
                             rel="noopener nofollow noreferrer"
-                            className="ml-auto text-blue-400 hover:underline cursor-pointer"
+                            className="ml-auto text-blue-400 cursor-pointer hover:underline"
                           >
                             {post.images[currentImage].linkUrl}
                           </a>
@@ -390,7 +390,7 @@ export default memo(function Post({
               <div
                 className={`ml-2 text-gray-500 hover:text-gray-700 dark:hover:text-gray-300 flex items-center cursor-pointer`}
               >
-                <IconDotsVertical className="text-disabled w-4 h-4" />
+                <IconDotsVertical className="w-4 h-4 text-disabled" />
               </div>
             </ContextMenuTrigger>
           </div>

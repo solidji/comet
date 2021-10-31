@@ -8,6 +8,7 @@ import CommentContextMenu from '@/components/comment/CommentContextMenu'
 import ServerContextMenu from '@/components/server/ServerContextMenu'
 import ChannelContextMenu from '@/components/channel/ChannelContextMenu'
 import FolderContextMenu from '@/components/folder/FolderContextMenu'
+import EventContextMenu from '@/components/event/EventContextMenu'
 import { getOS } from '@/utils/getOS'
 import ContextMenuSection from '@/components/ui/context/ContextMenuSection'
 import ContextMenuDivider from '@/components/ui/context/ContextMenuDivider'
@@ -75,6 +76,7 @@ export default function ContextMenu({
 
       {data?.type === ContextMenuType.Post && <PostContextMenu {...props} />}
       {data?.type === ContextMenuType.User && <UserContextMenu {...props} />}
+      {data?.type === ContextMenuType.Event && <EventContextMenu {...props} />}
       {data?.type === ContextMenuType.Message && (
         <MessageContextMenu {...props} />
       )}

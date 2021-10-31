@@ -18,7 +18,8 @@ export const usePosts = ({ serverId, folderId }) => {
     time: postsSort === 'Top' && !folderId ? postsTime : null,
     serverId,
     folderId,
-    feed
+    feed,
+    // limit: 3
   }
   const { data, loading, fetchMore } = usePostsQuery({
     variables,
@@ -32,18 +33,19 @@ export const usePosts = ({ serverId, folderId }) => {
     fetchMore({
       variables: {
         ...variables,
-        offset: 20 * (page + 1)
+        offset: posts.length
+        // offset: 20 * (page + 1)
       },
-      updateQuery: (prev, { fetchMoreResult: res }) => {
-        return {
-          posts: {
-            hasMore: res.posts.hasMore,
-            posts: [...prev.posts.posts, ...res.posts.posts]
-          }
-        }
-      }
+      // updateQuery: (prev, { fetchMoreResult: res }) => {
+      //   return {
+      //     posts: {
+      //       hasMore: res.posts.hasMore,
+      //       posts: [...prev.posts.posts, ...res.posts.posts]
+      //     }
+      //   }
+      // }
     })
-    setPage(page + 1)
+    .then(fetchMoreResult=>setPage(page + 1))
   }
   return [posts, loading, loadMore, hasMore]
 }

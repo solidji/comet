@@ -31,7 +31,7 @@ export async function joinServer(
   await user.checkBannedFromServer(em, serverId)
   const firstServerJoin = await em.findOne(
     ServerUser,
-    { server, user },
+    { user },
     ['server'],
     { position: 'ASC' }
   )

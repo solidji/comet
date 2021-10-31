@@ -1,5 +1,6 @@
 import Sidebar from '@/components/ui/sidebar/Sidebar'
 import SidebarSortButtons from '@/components/ui/sidebar/SidebarSortButtons'
+import SidebarSortEvents from '@/components/ui/sidebar/SidebarSortEvents'
 import {
   IconSettings,
   IconShield,
@@ -150,6 +151,10 @@ export default function ServerSidebar() {
           <SidebarLabel plusLabel="Create Post">Posts</SidebarLabel>
 
           <SidebarSortButtons />
+          
+          <SidebarLabel plusLabel="Create Events">Events</SidebarLabel>
+
+          <SidebarSortEvents />
 
           <CreateChannel server={server} />
 
