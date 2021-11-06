@@ -18,13 +18,13 @@ export default function EventInfoCard({
   const [currentUser] = useCurrentUser()
   // const CategoryIcon = getCategoryIcon(event.category)
   // const exploreCategory = useStore(s => s.exploreCategory)
-  const [deleteOpen, setDeleteOpen] = useState(false)
+  // const [deleteOpen, setDeleteOpen] = useState(false)
   return (
     <ContextMenuTrigger
       data={{
         type: ContextMenuType.Event,
-        event,
-        openDelete: ()=> setDeleteOpen(true)
+        event
+        // openDelete: ()=> setDeleteOpen(true)
         // enableFeatured: true
       }}
     >
@@ -73,13 +73,13 @@ export default function EventInfoCard({
             <div className="inline-flex items-center ml-auto">
               {/* <CategoryIcon className="w-4 h-4 text-tertiary" /> */}
               {/* {!event?.isJoined && <div>报名</div>} */}
-              {event?.isJoined && 
+              {event?.isJoined && (
                 <UserAvatar
                   user={currentUser}
                   size={5}
                   className="rounded-full dark:bg-gray-750"
                 />
-              }
+              )}
               {/* {event?.isJoined && <div>已报名</div>} */}
               {/* <div className="ml-2 text-tertiary">{server.category}</div> */}
             </div>

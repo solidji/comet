@@ -48,8 +48,8 @@ export default function ServerList({ hide = false }) {
         } h-full flex-col items-center min-w-[4.5rem] w-18 bg-gray-300 dark:bg-gray-900 overflow-y-auto scrollbar-none`}
       >
         {isMac && <div className="h-5" />}
-        <div className="h-full flex flex-col items-center w-full divide-y dark:divide-gray-800 divide-gray-200">
-          <div className="space-y-2 flex flex-col items-center py-2">
+        <div className="flex flex-col items-center w-full h-full divide-y divide-gray-200 dark:divide-gray-800">
+          <div className="flex flex-col items-center py-2 space-y-2">
             <ServerListItem
               name={t('home')}
               to={`${homePage ? `/${homePage}` : '/'}`}
@@ -88,7 +88,7 @@ export default function ServerList({ hide = false }) {
           </div>
 
           {!!servers && servers.length > 0 && (
-            <div className="space-y-2 flex flex-col items-center py-2">
+            <div className="flex flex-col items-center py-2 space-y-2">
               {servers.map(server => (
                 <ServerListServer server={server} key={server.id} />
               ))}
@@ -151,7 +151,7 @@ function ServerListServer({ server }) {
           />
 
           {!!mentionCount && (
-            <div className="absolute -bottom-1 -right-1 rounded-full border-3 dark:border-gray-900">
+            <div className="absolute rounded-full -bottom-1 -right-1 border-3 dark:border-gray-900">
               <CountBadge count={mentionCount} />
             </div>
           )}
@@ -196,17 +196,17 @@ function DeleteServerDialog({ open, setOpen, server }) {
             }}
           >
             Delete
-            {loading && <IconSpinner className="w-5 h-5 text-primary ml-3" />}
+            {loading && <IconSpinner className="w-5 h-5 ml-3 text-primary" />}
           </button>
         </>
       }
     >
-      <div className="max-w-md w-full rounded-md dark:bg-gray-800 shadow-lg px-5 pt-5 pb-10">
-        <div className="text-red-400 text-lg font-semibold">
+      <div className="w-full max-w-md px-5 pt-5 pb-10 rounded-md dark:bg-gray-800">
+        <div className="text-lg font-semibold text-red-400">
           Delete {server.name}
         </div>
 
-        <div className="text-tertiary pb-3 pt-3 text-sm">
+        <div className="pt-3 pb-3 text-sm text-tertiary">
           All posts, comments, and messages will be lost. Enter your password to
           continue.
         </div>

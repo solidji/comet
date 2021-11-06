@@ -1,7 +1,4 @@
-import {
-  useEffect,
-  useState
-} from 'react'
+import { useEffect, useState } from 'react'
 
 import { useForm } from 'react-hook-form'
 import { useHistory } from 'react-router-dom'
@@ -46,7 +43,14 @@ export default function CreateServerDialog({ open, setOpen, server }) {
   const [category, setCategory] = useState(
     server?.category ?? ServerCategory.Other
   )
-  const { handleSubmit, register, watch, reset, setValue, formState: { errors, isValid } } = useForm({
+  const {
+    handleSubmit,
+    register,
+    watch,
+    reset,
+    setValue,
+    formState: { errors, isValid }
+  } = useForm({
     mode: 'onChange'
   })
   watch((values, { type, value, name }) => {
@@ -68,7 +72,10 @@ export default function CreateServerDialog({ open, setOpen, server }) {
       setValue(
         'name',
         // displayName.replace(' ', '_').replace(/[^A-Za-z0-9_]/i, '')
-        displayName.replace(' ', '_').replace(' ', '_').replace(/^[^a-zA-Z0-9_\u4e00-\u9fa5]+$/i, '')
+        displayName
+          .replace(' ', '_')
+          .replace(' ', '_')
+          .replace(/^[^a-zA-Z0-9_\u4e00-\u9fa5]+$/i, '')
       )
     }
   }, [displayName])
@@ -169,7 +176,8 @@ export default function CreateServerDialog({ open, setOpen, server }) {
               !name ||
               displayName?.length < 2 ||
               name?.length < 3 ||
-              createLoading || !serverRegex.test(name)
+              createLoading ||
+              !serverRegex.test(name)
             }
           >
             {createLoading ? (
@@ -207,8 +215,9 @@ export default function CreateServerDialog({ open, setOpen, server }) {
 
       <label
         htmlFor="bannerFile"
-        className={`h-24 block relative rounded-t-lg group cursor-pointer bg-center bg-cover ${bannerSrc ? '' : 'bg-gradient-to-br from-red-400 to-indigo-600'
-          }`}
+        className={`h-24 block relative rounded-t-lg group cursor-pointer bg-center bg-cover ${
+          bannerSrc ? '' : 'bg-gradient-to-br from-red-400 to-indigo-600'
+        }`}
         style={bannerSrc ? { backgroundImage: `url(${bannerSrc})` } : {}}
       >
         <div className="absolute inset-0 flex items-center justify-center transition bg-black rounded-t-lg opacity-0 group-hover:opacity-50">
@@ -256,7 +265,12 @@ export default function CreateServerDialog({ open, setOpen, server }) {
             </span>
             {!server && (
               <input
-                {...register('name', { pattern: serverRegex, required: true, minLength: 3, maxLength: 21 })}
+                {...register('name', {
+                  pattern: serverRegex,
+                  required: true,
+                  minLength: 3,
+                  maxLength: 21
+                })}
                 minLength={3}
                 maxLength={21}
                 placeholder="Name"
@@ -266,7 +280,9 @@ export default function CreateServerDialog({ open, setOpen, server }) {
             )}
           </div>
           {errors.name?.type === 'pattern' && (
-            <div className="form-error">Letters, numbers and underscores only</div>
+            <div className="form-error">
+              Letters, numbers and underscores only
+            </div>
           )}
         </div>
 

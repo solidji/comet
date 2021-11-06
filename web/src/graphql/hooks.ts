@@ -1551,7 +1551,10 @@ export type CurrentUserFragment = (
 export type EventFragment = (
   { __typename?: 'Event' }
   & Pick<Event, 'id' | 'title' | 'description' | 'bannerUrl' | 'userCount' | 'isJoined' | 'relativeUrl'>
-  & { owner: (
+  & { server: (
+    { __typename?: 'Server' }
+    & Pick<Server, 'id' | 'name'>
+  ), owner: (
     { __typename?: 'User' }
     & Pick<User, 'id'>
   ) }
@@ -3388,6 +3391,10 @@ export const EventFragmentDoc = gql`
   userCount
   isJoined
   relativeUrl
+  server {
+    id
+    name
+  }
   owner {
     id
   }

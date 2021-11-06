@@ -6,6 +6,10 @@ fragment Event on Event {
   userCount
   isJoined
   relativeUrl
+  server {
+    id
+    name
+  }
   owner {
     id
   }

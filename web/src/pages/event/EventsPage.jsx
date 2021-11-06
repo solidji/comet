@@ -46,7 +46,7 @@ export default function EventsPage() {
       <Helmet>
         <title>{server?.displayName}</title>
       </Helmet>
-      <PageView>
+      {/* <PageView> */}
         {/* <div className="px-0 py-0 md:px-8 md:py-8">
           <div className="grid grid-cols-1 gap-4 lg:grid-cols-3 2xl:grid-cols-5">
             {events?.map(event => (
@@ -59,7 +59,7 @@ export default function EventsPage() {
         serverId={server?.id}
         header={currentUser ? <CreateEventHeader server={server} /> : <div className="h-4" />}
       />
-      </PageView> 
+      {/* </PageView>  */}
     </Page>
   )
 }

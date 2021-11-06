@@ -12,7 +12,7 @@ export default function CreateEventHeader({ serverId }) {
   return (
     <>
       <CreateEventDialog open={open} setOpen={setOpen} serverId={serverId} />
-      <div className="p-4">
+      <div className="pb-2 md:pb-4">
         <div
           onClick={() => setOpen(true)}
           className="flex items-center transition bg-gray-200 rounded cursor-pointer dark:bg-gray-700 h-13 dark:hover:bg-gray-650 hover:bg-gray-300"
