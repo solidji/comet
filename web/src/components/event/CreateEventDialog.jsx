@@ -77,6 +77,7 @@ export default function CreateEventDialog({ open, setOpen, event, serverId }) {
         }
       }).then(({ data: { createEvent } }) => {
         setOpen(false)
+        reset()
         push(`${createEvent?.relativeUrl}`)
       })
     } else {

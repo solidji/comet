@@ -23,7 +23,7 @@ export async function deleteEvent(
     ['owner']
   )
   if (!user.isAdmin && event.owner !== user)
-    throw new Error('Must be owner or admin to delete server')
+    throw new Error('Must be owner or admin to delete event')
   event.isDeleted = true
   await em.persistAndFlush(event)
   await em
@@ -31,6 +31,6 @@ export async function deleteEvent(
     .update({ status: EventUserStatus.None })
     .where({ status: EventUserStatus.Joined, event })
     .execute()
-  // liveQueryStore.invalidate(`Server:${serverId}`)
+  // liveQueryStore.invalidate(`Event:${eventId}`)
   return eventId
 }

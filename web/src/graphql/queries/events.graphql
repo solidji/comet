@@ -5,7 +5,7 @@ query events(
   $time: EventsTime
   $serverId: ID
   $search: String
-) {
+) @live {
   events(
     sort: $sort
     time: $time

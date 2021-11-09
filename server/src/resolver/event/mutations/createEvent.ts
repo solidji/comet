@@ -1,3 +1,4 @@
+import { Query } from './../../../../../web/src/graphql/hooks'
 import { Field, ID, InputType } from "type-graphql"
 import { Length, Matches } from 'class-validator'
 import { FileUpload, GraphQLUpload } from 'graphql-upload'
@@ -52,11 +53,11 @@ export async function createEvent(
     )
   }
 
-  const foundEvent = await em.findOne(Event, {
-    title: handleUnderscore(title),
-    isDeleted: false
-  })
-  if (foundEvent) throw new Error('Event with that title already exists')
+  // const foundEvent = await em.findOne(Event, {
+  //   title: handleUnderscore(title),
+  //   isDeleted: false
+  // })
+  // if (foundEvent) throw new Error('Event with that title already exists')
 
 
   const server = await em.findOneOrFail(Server, serverId, { isDeleted: false })
@@ -110,6 +111,6 @@ export async function createEvent(
     event,
     eventUser
   ])
-  // liveQueryStore.invalidate(`Server:${serverId}`)
+  // liveQueryStore.invalidate(`Query.events`)
   return event
 }

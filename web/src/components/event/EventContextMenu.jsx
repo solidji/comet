@@ -4,6 +4,8 @@ import {
   CurrentUserDocument,
   PublicServersDocument,
   EventFragmentDoc,
+  EventDocument,
+  EventsDocument,
   // useUnfeatureServerMutation,
   // useFeatureServerMutation,
   useLeaveEventMutation,
@@ -137,7 +139,42 @@ export default function EventContextMenu({
 }
 
 function DeleteEventDialog({ open, setOpen, event }) {
-  const [deleteEvent, { loading }] = useDeleteEventMutation()
+  // const apolloClient = useApolloClient()
+  const [postsSort, postsTime] = useStore(s => [s.postsSort, s.postsTime])
+  const variables = {
+    sort: postsSort,
+    time: postsSort === 'Top' ? postsTime : null,
+    serverId: event.server.id
+  }
+
+  const [deleteEvent, { loading }] = useDeleteEventMutation({
+    update(cache, { data: { deleteEvent } }) {
+      // const frag = cache.readFragment({
+      //   fragment: EventFragmentDoc,
+      //   id: `Event:${event.id}`
+      // })
+      // cache.writeFragment({
+      //   fragment: EventFragmentDoc,
+      //   id: `Event:${event.id}`,
+      //   data: { ...frag, isDeleted: true }
+      // })
+
+      const data = cache.readQuery({
+        query: EventsDocument,
+        variables
+      })
+      cache.writeQuery({
+        query: EventsDocument,
+        variables,
+        data: {
+          events: {
+            ...data.events,
+            events: data.events.events.filter(c => c.id !== deleteEvent)
+          }
+        }
+      })
+    }
+  })
   const { push } = useHistory()
 
   return (

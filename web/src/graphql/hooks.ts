@@ -1550,7 +1550,7 @@ export type CurrentUserFragment = (
 
 export type EventFragment = (
   { __typename?: 'Event' }
-  & Pick<Event, 'id' | 'title' | 'description' | 'bannerUrl' | 'userCount' | 'isJoined' | 'relativeUrl'>
+  & Pick<Event, 'id' | 'title' | 'description' | 'bannerUrl' | 'userCount' | 'isJoined' | 'isDeleted' | 'relativeUrl'>
   & { server: (
     { __typename?: 'Server' }
     & Pick<Server, 'id' | 'name'>
@@ -3390,6 +3390,7 @@ export const EventFragmentDoc = gql`
   bannerUrl
   userCount
   isJoined
+  isDeleted
   relativeUrl
   server {
     id
@@ -6471,7 +6472,7 @@ export type EventUsersQueryHookResult = ReturnType<typeof useEventUsersQuery>;
 export type EventUsersLazyQueryHookResult = ReturnType<typeof useEventUsersLazyQuery>;
 export type EventUsersQueryResult = Apollo.QueryResult<EventUsersQuery, EventUsersQueryVariables>;
 export const EventsDocument = gql`
-    query events($sort: EventsSort, $offset: NonNegativeInt, $limit: PositiveInt, $time: EventsTime, $serverId: ID, $search: String) {
+    query events($sort: EventsSort, $offset: NonNegativeInt, $limit: PositiveInt, $time: EventsTime, $serverId: ID, $search: String) @live {
   events(
     sort: $sort
     time: $time

@@ -5,6 +5,7 @@ fragment Event on Event {
   bannerUrl
   userCount
   isJoined
+  isDeleted
   relativeUrl
   server {
     id
