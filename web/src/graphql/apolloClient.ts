@@ -176,7 +176,7 @@ export const apolloClient = new ApolloClient({
               // immutable, and frozen in development.
               let merged: Reference[] = [];
               if (existing && existing.posts) {
-                merged = existing.posts.slice(0)
+                merged = existing.posts.slice(0,offset+incoming.posts.length-1)
               } 
               if (incoming && incoming.posts) {
                 for (let i = 0; i < incoming.posts.length; ++i) {
@@ -207,9 +207,12 @@ export const apolloClient = new ApolloClient({
           events: {
             keyArgs: ['serverId', 'sort', 'time'],
             merge(existing, incoming, { args: { offset = 0 }}) {
+              console.log("🚀 ~ file: apolloClient.ts ~ line 210 ~ merge ~ offset", offset)
+              // console.log("🚀 ~ file: apolloClient.ts ~ line 210 ~ merge ~ incoming", incoming)
+              // console.log("🚀 ~ file: apolloClient.ts ~ line 210 ~ merge ~ existing", existing)
               let merged: Reference[] = [];
               if (existing && existing.events) {
-                merged = existing.events.slice(0)
+                merged = existing.events.slice(0,offset+incoming.events.length-1)
               } 
               if (incoming && incoming.events) {
                 for (let i = 0; i < incoming.events.length; ++i) {

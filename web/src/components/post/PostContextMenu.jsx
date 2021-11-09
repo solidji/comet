@@ -6,11 +6,13 @@ import { useTogglePostPin } from '@/components/post/useTogglePostPin'
 import { useCurrentUser } from '@/hooks/graphql/useCurrentUser'
 import ContextMenuSection from '@/components/ui/context/ContextMenuSection'
 import toast from 'react-hot-toast'
-import { useDeletePostMutation } from '@/graphql/hooks'
+import { useStore } from '@/hooks/useStore'
+import { useHistory, useLocation } from 'react-router-dom'
+import { useDeletePostMutation, PostsDocument } from '@/graphql/hooks'
 
 export default function PostContextMenu({ post, ContextMenuItem }) {
   const { t } = useTranslation()
-
+  const { push } = useHistory()
   const [canManagePosts] = useHasServerPermissions({
     server: post?.server,
     permissions: [ServerPermission.ManagePosts]
@@ -18,12 +20,43 @@ export default function PostContextMenu({ post, ContextMenuItem }) {
 
   const copyToClipboard = useCopyToClipboard()[1]
 
-  const [deletePost] = useDeletePostMutation()
+  const [currentUser] = useCurrentUser()
+  const [postsSort, postsTime, postsFeed] = useStore(s => [
+    s.postsSort,
+    s.postsTime,
+    s.postsFeed
+  ])
+  const feed = !currentUser && postsFeed === 'Joined' ? 'Featured' : postsFeed
+  const variables = {
+    sort: postsSort,
+    time: postsSort === 'Top' ? postsTime : null,
+    serverId: post?.server?.id,
+    feed
+  }
+
+  const [deletePost] = useDeletePostMutation({
+    update(cache, { data: { deletePost } }) {
+      const data = cache.readQuery({
+        query: PostsDocument,
+        variables
+      })
+      cache.writeQuery({
+        query: PostsDocument,
+        variables,
+        data: {
+          posts: {
+            ...data.posts,
+            posts: data.posts.posts.filter(c => c.id !== deletePost?.id)
+          }
+        }
+      })
+    }
+  })
 
   // const togglePin = useTogglePostPin(post)
 
-  const [currentUser] = useCurrentUser()
-  const isAuthor = !!post.author && !!currentUser && post.author.id === currentUser.id
+  const isAuthor =
+    !!post.author && !!currentUser && post.author.id === currentUser.id
   const canDelete = isAuthor || canManagePosts
 
   /*const friends = (currentUser?.relatedUsers ?? []).filter(
@@ -135,12 +168,17 @@ export default function PostContextMenu({ post, ContextMenuItem }) {
           <ContextMenuItem
             red
             onClick={() => {
-              deletePost({ variables: { input: { postId: post.id } }, optimisticResponse: {
-                ...post,
+              deletePost({
+                variables: { input: { postId: post.id } },
+                optimisticResponse: {
+                  ...post,
                   isDeleted: true,
                   author: null,
                   serverUser: null
-                } })
+                }
+              }).then(() => {
+                push(`/+${post?.server?.name}`)
+              })
               toast.success(t('post.context.deleted'))
             }}
             label={t('post.context.delete')}
