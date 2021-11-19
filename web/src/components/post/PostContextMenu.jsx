@@ -136,7 +136,25 @@ export default function PostContextMenu({ post, ContextMenuItem }) {
           </ContextMenuItem>
         )}*/}
 
-        {isAuthor && <ContextMenuItem label={t('post.context.edit')} />}
+        {isAuthor && (
+          <ContextMenuItem
+            onClick={() => {
+              // deletePost({
+              //   variables: { input: { postId: post.id } },
+              //   optimisticResponse: {
+              //     ...post,
+              //     isDeleted: true,
+              //     author: null,
+              //     serverUser: null
+              //   }
+              // }).then(() => {
+              //   push(`/+${post?.server?.name}`)
+              // })
+              toast.success(t('post.context.edited'))
+            }}
+            label={t('post.context.edit')}
+          />
+        )}
         {/*{canManagePosts && (
           <ContextMenuItem
             onClick={() => togglePin()}

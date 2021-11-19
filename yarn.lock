@@ -4679,6 +4679,15 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@types/ws@npm:^8.2.0":
+  version: 8.2.0
+  resolution: "@types/ws@npm:8.2.0"
+  dependencies:
+    "@types/node": "*"
+  checksum: bb461f30c32f7b3023b7e44d53dbb45d9959283d8f31b9ed46a1b799d1ab19893a5835658e332e2c605d06f9f6ee1991a83f1db4d1cff3c8012f02763068c927
+  languageName: node
+  linkType: hard
+
 "@types/yargs-parser@npm:*":
   version: 20.2.0
   resolution: "@types/yargs-parser@npm:20.2.0"
@@ -15792,6 +15801,7 @@ resolve@^2.0.0-next.3:
     "@types/sanitize-html": ^2.3.2
     "@types/sharp": ^0.28.4
     "@types/user-agents": ^1.0.2
+    "@types/ws": ^8.2.0
     add: ^2.0.6
     apollo-server-express: ^3.0.2
     argon2: ^0.28.2

@@ -139,7 +139,7 @@ export default function EventContextMenu({
 }
 
 function DeleteEventDialog({ open, setOpen, event }) {
-  // const apolloClient = useApolloClient()
+  const { push } = useHistory()
   const [postsSort, postsTime] = useStore(s => [s.postsSort, s.postsTime])
   const variables = {
     sort: postsSort,
@@ -149,16 +149,6 @@ function DeleteEventDialog({ open, setOpen, event }) {
 
   const [deleteEvent, { loading }] = useDeleteEventMutation({
     update(cache, { data: { deleteEvent } }) {
-      // const frag = cache.readFragment({
-      //   fragment: EventFragmentDoc,
-      //   id: `Event:${event.id}`
-      // })
-      // cache.writeFragment({
-      //   fragment: EventFragmentDoc,
-      //   id: `Event:${event.id}`,
-      //   data: { ...frag, isDeleted: true }
-      // })
-
       const data = cache.readQuery({
         query: EventsDocument,
         variables
@@ -175,7 +165,6 @@ function DeleteEventDialog({ open, setOpen, event }) {
       })
     }
   })
-  const { push } = useHistory()
 
   return (
     <StyledDialog
